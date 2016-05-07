@@ -131,7 +131,7 @@ class User(Model):
         if user and User.verify_password(user.password, password):
             return user
 
-        return user
+        return None
 
     @staticmethod
     def generate_password_hash(password):
@@ -322,6 +322,15 @@ class Comment(Model):
     def author(self, value):
         self.saved_data[5] = value
 
+    @property
+    def children(self):
+        children = self._get_property(6)
+        if not children:
+            self.saved_data[6] = self.get_child_comments()
+            children = self._get_property(6)
+
+        return children
+
     def _get_property_dict(self):
         return {
             "id": self.id,
@@ -374,6 +383,14 @@ class Comment(Model):
             return
 
         self.author = u
+
+    def get_child_comments(self):
+        assert self.id
+
+        return Select().star().From(Comment.table_name) \
+            .filter(column("parent_id").equal(self.id)) \
+            .to_query().with_model(Comment) \
+            .all()
 
     def save(self):
         return self._save(Comment.table_name)
@@ -442,7 +459,13 @@ if __name__ == '__main__':
     user = User.get_by_id(6)
     post = Post.get_by_id(5)
     comment = Comment.get_by_id(3)
+    comment2 = Comment.get_by_id(2)
 
-    print(comment.author.first_name)
-    print(comment.post.first_name)
+    comment.post = None
+    comment.parent = comment2
 
+    comment.save_or_update()
+
+    print(comment2.children)
+    for com in comment2.children:
+        print(com.body)
