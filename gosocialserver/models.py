@@ -52,6 +52,14 @@ class User(Model):
         self.saved_data[5] = value
 
     @property
+    def profile_pic(self):
+        return self._get_property(6)
+
+    @profile_pic.setter
+    def profile_pic(self, value):
+        self.saved_data[6] = value
+
+    @property
     def name(self):
         return self.first_name + " " + self.last_name
 
@@ -123,7 +131,7 @@ class User(Model):
         if user and User.verify_password(user.password, password):
             return user
 
-        raise AuthExceptions.InvalidCredentialsException()
+        return user
 
     @staticmethod
     def generate_password_hash(password):
@@ -137,9 +145,89 @@ class User(Model):
 class Post(Model):
     table_name = "posts"
 
-    def __init__(self, data):
+    def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
+
+    @property
+    def title(self):
+        return self._get_property(1)
+
+    @title.setter
+    def title(self, value):
+        self.saved_data[1] = value
+
+    @property
+    def body(self):
+        return self._get_property(2)
+
+    @body.setter
+    def body(self, value):
+        self.saved_data[2] = value
+
+    @property
+    def image(self):
+        return self._get_property(3)
+
+    @image.setter
+    def image(self, value):
+        self.saved_data[3] = value
+
+    @property
+    def created_on(self):
+        return self._get_property(4)
+
+    @created_on.setter
+    def created_on(self, value):
+        self.saved_data[4] = value
+
+    @property
+    def updated_on(self):
+        return self._get_property(5)
+
+    @property
+    def author(self):
+        u = self._get_property(6)
+
+        if not isinstance(u, User):
+            self.load()
+            u = self._get_property(6)
+
+        return u
+
+    @author.setter
+    def author(self, value):
+        self.saved_data[6] = value
+
+    def _get_property_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "body": self.body,
+            "image": self.image,
+            "created_on": self.created_on,
+            "user_id": self.author.id
+        }
+
+    def save_or_update(self):
+        return self._save_or_update(self.table_name, Post)
+
+    def save(self):
+        return self._save(self.table_name)
+
+    def load(self):
+        pk = self._get_property(6)
+        if not type(pk) is int:
+            return
+
+        u = Select().star().From(User.table_name) \
+            .filter(column("id").equal(pk)) \
+            .to_query().with_model(User) \
+            .first()
+        if not u:
+            return
+
+        self.author = u
 
     @staticmethod
     def all():
@@ -149,13 +237,149 @@ class Post(Model):
     def get_by_id(pk):
         return Model._query_by_id(Post.table_name, Post, pk)
 
+    @staticmethod
+    def new_post(title, body, image_url, user):
+        assert title
+        assert body
+        assert image_url
+        assert isinstance(user, User)
+
+        post = Post()
+        post.title = title
+        post.body = body
+        post.image = image_url
+        post.author = user
+        post.created_on = None
+
+        pk = post.save()
+        post.id = pk
+
+        return post
+
 
 class Comment(Model):
     table_name = "comments"
 
-    def __init__(self, data):
+    def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
+
+    @property
+    def body(self):
+        return self._get_property(1)
+
+    @body.setter
+    def body(self, value):
+        self.saved_data[1] = value
+
+    @property
+    def created_on(self):
+        return self._get_property(2)
+
+    @created_on.setter
+    def created_on(self, value):
+        self.saved_data[2] = value
+
+    @property
+    def parent(self):
+        u = self._get_property(3)
+
+        if u and not isinstance(u, Comment):
+            self.load_parent()
+            u = self._get_property(3)
+
+        return u
+
+    @parent.setter
+    def parent(self, value):
+        self.saved_data[3] = value
+
+    @property
+    def post(self):
+        u = self._get_property(4)
+
+        if u and not isinstance(u, Post):
+            self.load_post()
+            u = self._get_property(4)
+
+        return u
+
+    @post.setter
+    def post(self, value):
+        self.saved_data[4] = value
+
+    @property
+    def author(self):
+        u = self._get_property(5)
+
+        if not isinstance(u, User):
+            self.load_user()
+            u = self._get_property(5)
+
+        return u
+
+    @author.setter
+    def author(self, value):
+        self.saved_data[5] = value
+
+    def _get_property_dict(self):
+        return {
+            "id": self.id,
+            "body": self.body,
+            "parent_id": self.parent.id if self.parent else None,
+            "post_id": self.post.id if self.post else None,
+            "user_id": self.author.id
+        }
+
+    def load_parent(self):
+        pk = self._get_property(3)
+        if not type(pk) is int:
+            return
+
+        c = Select().star().From(Comment.table_name) \
+            .filter(column("id").equal(pk)) \
+            .to_query().with_model(Comment) \
+            .first()
+        if not c:
+            return
+
+        self.parent = c
+
+    def load_post(self):
+        pk = self._get_property(4)
+        if not type(pk) is int:
+            return
+
+        p = Select().star().From(Post.table_name) \
+            .filter(column("id").equal(pk)) \
+            .to_query().with_model(Post) \
+            .first()
+
+        if not p:
+            return
+
+        self.post = p
+
+    def load_user(self):
+        pk = self._get_property(5)
+        if not type(pk) is int:
+            return
+
+        u = Select().star().From(User.table_name) \
+            .filter(column("id").equal(pk)) \
+            .to_query().with_model(User) \
+            .first()
+
+        if not u:
+            return
+
+        self.author = u
+
+    def save(self):
+        return self._save(Comment.table_name)
+
+    def save_or_update(self):
+        return self._save_or_update(Comment.table_name, Comment)
 
     @staticmethod
     def all():
@@ -164,6 +388,23 @@ class Comment(Model):
     @staticmethod
     def get_by_id(pk):
         return Model._query_by_id(Comment.table_name, Comment, pk)
+
+    @staticmethod
+    def new_comment(body, parent, post, user):
+        assert body
+        assert user
+        assert (parent and not post) or (post and not parent)
+
+        comment = Comment()
+        comment.body = body
+        comment.parent = parent
+        comment.post = post
+        comment.author = user
+
+        pk = comment.save()
+        comment.id = pk
+
+        return comment
 
 
 class Like(Model):
@@ -198,6 +439,10 @@ class Dislike(Model):
 
 
 if __name__ == '__main__':
-    # user = User.new_user("admin", "root@localhost", "pass", "Mr.Admin", "Admini")
-    user = User.check_user("admin", "pass")
-    print(user)
+    user = User.get_by_id(6)
+    post = Post.get_by_id(5)
+    comment = Comment.get_by_id(3)
+
+    print(comment.author.first_name)
+    print(comment.post.first_name)
+

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import datetime
 from mysql.connector import MySQLConnection
 
 from gosocialserver import config
@@ -9,7 +10,7 @@ def get_value_str(value):
     if not value:
         return "NULL"
 
-    return '"%s"' % value if type(value) is str else str(value)
+    return '"%s"' % value if type(value) is str or isinstance(value, datetime.datetime) else str(value)
 
 
 class Database:
