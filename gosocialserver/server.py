@@ -6,9 +6,11 @@ app = Flask(__name__)
 app.debug = True
 app.secret_key = config.SECRET_KEY
 
+import gosocialserver.authviews
+
 
 @app.route('/')
-def hello_world():
+def index():
     return 'Hello World!'
 
 
