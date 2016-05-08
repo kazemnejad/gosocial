@@ -1,7 +1,7 @@
 from passlib.apps import custom_app_context as pwd_context
 
 from gosocialserver.auth import AuthExceptions
-from gosocialserver.orm import Model, Select, column, Insert
+from gosocialserver.orm import Model, Select, column, Insert, Query
 
 
 class User(Model):
@@ -208,6 +208,23 @@ class Post(Model):
     def author_profile_pic(self):
         return self._get_property(8)
 
+    @property
+    def like_count(self):
+        return self._get_property(9)
+
+    @property
+    def comments(self):
+        comments = self._get_property(16)
+        if not comments:
+            comments = Select().star().From(Comment.table_name) \
+                .filter(column('post_id').equal(self.id)) \
+                .to_query().with_model(Comment) \
+                .all()
+
+            self.saved_data[16] = comments
+
+        return comments
+
     def _get_property_dict(self):
         return {
             "id": self.id,
@@ -267,10 +284,13 @@ class Post(Model):
 
     @staticmethod
     def get_main_page_posts():
-        return Select().fields(["P.id", "P.title", "P.body", "P.image",
-                                "P.created_on", "P.updated_on", "P.user_id", "U.username", "U.profile_pic"]) \
-            .From("posts P", "users U").filter(column("U.id").equal("P.user_id").skip_string()).to_query() \
-            .with_model(Post).all()
+        sql = """
+            SELECT P.id,P.title, P.body,P.image, P.created_on,P.updated_on, P.user_id, U.username,U.profile_pic, COUNT(*) as like_counts
+            FROM posts P, users U, likes L
+            WHERE P.user_id = U.id AND L.post_id = P.id
+            GROUP BY P.id"""
+
+        return Query(sql).with_model(Post).all()
 
 
 class Comment(Model):
@@ -542,6 +562,12 @@ class Like(Model):
 
         return like
 
+    @staticmethod
+    def get_count_for(post):
+        sql = "SELECT COUNT(*) as like_counts FROM %s WHERE post_id = %s" % Like.table_name, post.id
+        counts = Query(sql).with_model(Like).first()
+        return counts.id if counts else 0
+
 
 class Dislike(Like):
     table_name = "dislikes"
@@ -572,6 +598,12 @@ class Dislike(Like):
         like.id = pk
 
         return like
+
+    @staticmethod
+    def get_count_for(post):
+        sql = "SELECT COUNT(*) as like_counts FROM %s WHERE post_id = %s" % Dislike.table_name, post.id
+        counts = Query(sql).with_model(Like).first()
+        return counts.id if counts else 0
 
 
 if __name__ == '__main__':

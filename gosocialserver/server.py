@@ -8,6 +8,7 @@ app.secret_key = config.SECRET_KEY
 
 import gosocialserver.userviews
 import gosocialserver.postviews
+import gosocialserver.commentsview
 
 
 def run():

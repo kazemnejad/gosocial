@@ -5,3 +5,7 @@ db = {
     "password": "12345",
     "database": "gosocial"
 }
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+DEFAULT_POST_IMAGE = "media/def_post_image.jpg"

@@ -1,4 +1,3 @@
-/gosocialserver/config.py
 ### Linux template
 *~
 
@@ -68,7 +67,6 @@ docs/_build/
 target/
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
-/gohappyserver/config.py
 
 *.iml
 

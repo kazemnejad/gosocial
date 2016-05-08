@@ -85,3 +85,8 @@ def logout():
     g.user = None
     flash('You were logged out')
     return redirect(url_for('index'))
+
+
+@app.route("/users/<string:username>", methods=['GET'])
+def profile(username):
+    pass
