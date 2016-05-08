@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GoSocial! Login</title>
+
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+
+</head>
+
+
+<body style="background: url({{ url_for('static', filename="image/loginbg.jpg") }}) no-repeat fixed;background-size:cover;"
+      id="MyBody">
+
+<div class="space-30"></div>
+<div class="space-30"></div>
+<div class="space-30"></div>
+<!-- Sign Up Form-->
+<div class="collection z-depth-2"
+     style="max-width: 40%; left: 30%; right: 30%; background-color:#f5f5f5; text-color:#FFFFFF">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-6 " style="text-align:center;">
+                <a id="register-form-link" href="#" class="btn-flat btn-xlg waves-effect active"
+                   style="width:100%;margin: 0px;">Sign Up</a>
+
+            </div>
+
+            <div class="col-xs-6" style="text-align:center;">
+                <a id="login-form-link" href="#" class="btn-flat btn-xlg waves-effect" style="width:100%;margin: 0px;">Sign
+                    In</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row-center" id="signupbox">
+        <form class="col-md-12" id="register-form" style="display:block" method="post" action="/auth/register">
+            <div class="row">
+                <div class="input-field col-md-6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="icon_prefix" name="fname" type="text" class="validate" style="color:#757575;">
+                    <label for="icon_prefix" style="color:#757575">First Name</label>
+                </div>
+                <div class="input-field col-md-6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="icon_prefix" name="lname" type="text" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Last Name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">assignment_ind</i>
+                    <input id="icon_prefix" name="unname" type="text" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Username</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="icon_prefix" name="pass" type="password" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">email</i>
+                    <input id="icon_prefix" name="email" type="email" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Email</label>
+                </div>
+            </div>
+
+            <div class="col-xs-6" style="text-align:center; width:100%;">
+                <button type="submit" form="register-form" class="btn btn-primary waves-effect waves-light">Get
+                    Started!
+                </button>
+            </div>
+
+        </form>
+
+        <form class="col-md-12" id="login-form" style="display:none" method="post" action="/auth/login">
+
+            <div class="row">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">assignment_ind</i>
+                    <input id="icon_prefix" name="uname" type="text" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Username</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">lock</i>
+                    <input id="icon_prefix" name="pass" type="password" class="validate" style="color:#757575">
+                    <label for="icon_prefix" style="color:#757575">Password</label>
+                </div>
+            </div>
+
+            <div class="col-xs-6" style="text-align:center; width:100%;">
+                <button type="submit" form="login-form" class="btn btn-primary waves-effect waves-light">Log In!
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- SCRIPTS -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Material Design Bootstrap -->
+<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+
+<script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+
+</body>
+
+</html>
