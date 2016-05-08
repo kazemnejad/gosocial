@@ -204,6 +204,10 @@ class Post(Model):
     def author_username(self):
         return self._get_property(7)
 
+    @property
+    def author_profile_pic(self):
+        return self._get_property(8)
+
     def _get_property_dict(self):
         return {
             "id": self.id,
@@ -264,7 +268,7 @@ class Post(Model):
     @staticmethod
     def get_main_page_posts():
         return Select().fields(["P.id", "P.title", "P.body", "P.image",
-                                "P.created_on", "P.updated_on", "P.user_id", "U.username"]) \
+                                "P.created_on", "P.updated_on", "P.user_id", "U.username", "U.profile_pic"]) \
             .From("posts P", "users U").filter(column("U.id").equal("P.user_id").skip_string()).to_query() \
             .with_model(Post).all()
 
@@ -439,8 +443,9 @@ class Comment(Model):
 class Like(Model):
     table_name = "likes"
 
-    def __init__(self):
+    def _p_init__(self, data=tuple()):
         super().__init__()
+        self.data = data
 
     @staticmethod
     def all():
@@ -449,6 +454,12 @@ class Like(Model):
     @staticmethod
     def get_by_id(pk):
         return Model._query_by_id(Like.table_name, Like, pk)
+
+    def save(self):
+        return self._save(Model.table_name)
+
+    def save_or_update(self):
+        return self._save_or_update(Model.table_name, Like)
 
 
 class Dislike(Model):
