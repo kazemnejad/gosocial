@@ -148,6 +148,7 @@ class Post(Model):
     def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
+        print(self.data)
 
     @property
     def title(self):
@@ -198,6 +199,10 @@ class Post(Model):
     @author.setter
     def author(self, value):
         self.saved_data[6] = value
+
+    @property
+    def author_username(self):
+        return self._get_property(7)
 
     def _get_property_dict(self):
         return {
@@ -255,6 +260,13 @@ class Post(Model):
         post.id = pk
 
         return post
+
+    @staticmethod
+    def get_main_page_posts():
+        return Select().fields(["P.id", "P.title", "P.body", "P.image",
+                                "P.created_on", "P.updated_on", "P.user_id", "U.username"]) \
+            .From("posts P", "users U").filter(column("U.id").equal("P.user_id").skip_string()).to_query() \
+            .with_model(Post).all()
 
 
 class Comment(Model):

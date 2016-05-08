@@ -1,6 +1,6 @@
+import datetime
 from abc import ABC, abstractmethod
 
-import datetime
 from mysql.connector import MySQLConnection
 
 from gosocialserver import config
@@ -86,6 +86,7 @@ class Expression:
         self.field = field
         self.operator = None
         self.value = None
+        self.skip_str = False
 
     def equal(self, value):
         self.operator = Operator.EQUAL
@@ -123,6 +124,11 @@ class Expression:
 
         return self
 
+    def skip_string(self):
+        self.skip_str = True
+
+        return self
+
 
 column = Expression
 
@@ -152,11 +158,11 @@ class Whereble(ABC):
             self.is_where_written = True
 
         self.where += " "
-        self.where += "`" + expression.field + "`"
+        self.where += "`%s`" % expression.field if expression.field.find(".") == -1 else expression.field
         self.where += " "
         self.where += expression.operator
         self.where += " "
-        self.where += get_value_str(expression.value)
+        self.where += get_value_str(expression.value) if not expression.skip_str else expression.value
 
         return self
 
@@ -215,7 +221,7 @@ class Select(QueryBuilder, Whereble, Orderable):
         if columns:
             for i in range(len(columns)):
                 column = columns[i]
-                self.sql += "`" + column + "`"
+                self.sql += "`%s`" % column if column.find(".") == -1 else column
 
                 if i != len(columns) - 1:
                     self.sql += ","
@@ -230,12 +236,21 @@ class Select(QueryBuilder, Whereble, Orderable):
     def star(self):
         return self.fields(None)
 
-    def From(self, table_name):
+    def From(self, *args):
         assert self.is_select_written
         assert self.is_fields_written
-        self.table = table_name
+        assert len(args) > 0
 
-        self.sql += " from %s" % table_name
+        self.sql += " from"
+
+        counter = 0
+        for table_name in args:
+            self.sql += " %s" % table_name
+
+            if counter != len(args) - 1:
+                self.sql += ","
+
+            counter += 1
 
         return self
 
