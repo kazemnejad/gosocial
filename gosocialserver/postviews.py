@@ -28,17 +28,17 @@ def show_post(post_id):
     return render_template("postview.html", post=post, like_count=like_count, dislike_count=dislike_count)
 
 
-@app.route("/posts/add", methods=['POST'])
+@app.route("/posts/add", methods=['GET', 'POST'])
 @login_required
 def add_post():
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['body']
+        body = request.form['editor-body']
         image_file = request.files['image']
 
         address = None
         if image_file:
-            if allowed_file(image_file):
+            if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
                     abort(403)
@@ -50,7 +50,7 @@ def add_post():
         post = Post.new_post(title, body, address, g.user)
         return redirect(url_for('show_post', post_id=post.id))
 
-    return render_template('add_post')
+    return render_template('addpost.html')
 
 
 @app.route("/posts/<int:id>/edit", methods=['GET', 'POST'])
@@ -65,12 +65,12 @@ def edit_post(post_id):
 
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['body']
+        body = request.form['editor-body']
         image_file = request.files['image']
 
         address = None
         if image_file:
-            if allowed_file(image_file):
+            if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
                     abort(403)

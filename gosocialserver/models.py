@@ -110,7 +110,7 @@ class User(Model):
         user.first_name = fn
         user.last_name = ln
 
-        pk = Insert().into(User.table_name).values(user._get_property_dict()).to_query().execute()
+        pk = user.save()
         if not pk:
             raise AuthExceptions.FailedRegistration()
 
@@ -210,7 +210,7 @@ class Post(Model):
 
     @property
     def like_count(self):
-        return self._get_property(9)
+        return Like.get_count_for(self)
 
     @property
     def comments(self):
@@ -284,11 +284,10 @@ class Post(Model):
 
     @staticmethod
     def get_main_page_posts():
-        sql = """
-            SELECT P.id,P.title, P.body,P.image, P.created_on,P.updated_on, P.user_id, U.username,U.profile_pic, COUNT(*) as like_counts
-            FROM posts P, users U, likes L
-            WHERE P.user_id = U.id AND L.post_id = P.id
-            GROUP BY P.id"""
+        sql = """SELECT P.id,P.title, P.body,P.image, P.created_on,P.updated_on, P.user_id, U.username,U.profile_pic
+            FROM posts P, users U
+            WHERE (P.user_id = U.id)
+            GROUP By P.id"""
 
         return Query(sql).with_model(Post).all()
 
