@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GoSocial!</title>
+    
+
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.css" rel="stylesheet">
+    <link href="css/uicss.css" rel="stylesheet">
+    
+    <script src="http://cdn.ckeditor.com/4.5.8/full/ckeditor.js"></script>
+
+</head>
+    
+<body style=" background-color: #e2e2e2">
+    
+    <!-- Nav Bar-->
+    <nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand navbar-left" style="margin: 0px; padding: 2px">
+                    <img src="image/homebg1.png" class="profile-image img-circle" style="width: auto; height: 100% ; margin: 2px; padding: 2px">
+                </a>
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">@Username</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="background-color: #3F729B !important;">
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!--/ Nav Bar-->
+    
+    <div class="space-30"></div>
+    <div class="space-30"></div>
+    <div class="space-30"></div>
+    <div class="space-30"></div>
+    
+    <div class="col-md-8" style="background-color: #fff; float: none; margin: 0 auto; padding: 2%">
+        <form id="add-post" method="get">
+            <div class="row">
+                <form class="col-md-12">
+                  <div class="row">
+                    <div class="input-field col-md-12" style="margin: 2%; width: 96%">
+                      <i class="material-icons prefix">bookmark</i>
+                      <input id="icon_prefix" type="text" class="validate">
+                      <label for="icon_prefix">Title</label>
+                    </div>
+                  </div>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col-md-12" style="margin: 2%; width: 96%">
+                  <div class="row">
+                    <div class="input-field col-md-12">
+                      <textarea id="editor1" name="editor1" class="materialize-textarea"></textarea>
+                        <script>
+                            CKEDITOR.replace( 'editor1' );
+                        </script>
+                    </div>
+                  </div>
+                </form>
+            </div>
+
+            
+            <div class="input-group row">
+                <form class="col-md-12" style="margin: 2%; width: 96%">
+                    <div class="row">
+                        <span class="input-group-btn">
+                            <button id="fake-file-button-browse" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-file"></span>
+                            </button>
+                        </span>
+
+                        <input type="file" id="files-input-upload" accept="image/png, image/jpeg, image/gif" style="display:none">
+                        <input type="text" id="fake-file-input-name" disabled="disabled" placeholder="File Not Selected" class="form-control">
+
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" disabled="disabled" id="fake-file-button-upload">
+                                <span class="glyphicon glyphicon-upload"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">Post!</button>
+            </div>
+        </form>
+    </div>
+
+
+<!-- /container --> 
+    
+    <div class="space-30"></div>
+    
+    <footer class="page-footer blue center-on-small-only" style="margin: 0px">
+            <div class="container-fluid">
+            </div>
+            <div class="footer-copyright text-center rgba-black-light">
+                <div class="container-fluid">
+                    © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+                </div>
+            </div>
+    </footer>
+    
+    <!-- SCRIPTS -->
+    
+    <script type="text/javascript">
+        // Fake file upload
+        document.getElementById('fake-file-button-browse').addEventListener('click', function() {
+            document.getElementById('files-input-upload').click();
+        });
+
+        document.getElementById('files-input-upload').addEventListener('change', function() {
+            document.getElementById('fake-file-input-name').value = this.value;
+
+            document.getElementById('fake-file-button-upload').removeAttribute('disabled');
+        });
+    </script>
+    
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <!-- Material Design Bootstrap -->
+    <script type="text/javascript" src="js/mdb.js"></script>
+    <script type="text/javascript" src="js/uijs.js"></script>
+    
+</body>
+</html>
