@@ -447,6 +447,72 @@ class Like(Model):
         super().__init__()
         self.data = data
 
+    @property
+    def post(self):
+        u = self._get_property(2)
+
+        if not isinstance(u, User):
+            self.load_post()
+            u = self._get_property(2)
+
+        return u
+
+    @post.setter
+    def post(self, value):
+        self.saved_data[2] = value
+
+    @property
+    def author(self):
+        u = self._get_property(3)
+
+        if not isinstance(u, User):
+            self.load_user()
+            u = self._get_property(3)
+
+        return u
+
+    @author.setter
+    def author(self, value):
+        self.saved_data[3] = value
+
+    @property
+    def created_on(self):
+        return self._get_property(4)
+
+    @created_on.setter
+    def created_on(self, value):
+        self.saved_data[4] = value
+
+    def _get_property_dict(self):
+        return {
+            "id": self.id,
+            "post_id": self.post.id,
+            "user_id": self.author.id,
+            "created_on": self.created_on
+        }
+
+    def load_post(self):
+        pk = self._get_property(2)
+        if not type(pk) is int:
+            return
+
+        u = Post.get_by_id(pk)
+        if not u:
+            return
+
+        self.post = u
+
+    def load_user(self):
+        pk = self._get_property(3)
+        if not type(pk) is int:
+            return
+
+        u = User.get_by_id(pk)
+        if not u:
+            return
+
+        self.author = u
+
     @staticmethod
     def all():
         return Model._query_all(Like.table_name, Like)
@@ -456,16 +522,31 @@ class Like(Model):
         return Model._query_by_id(Like.table_name, Like, pk)
 
     def save(self):
-        return self._save(Model.table_name)
+        return self._save(self.table_name)
 
     def save_or_update(self):
-        return self._save_or_update(Model.table_name, Like)
+        return self._save_or_update(self.table_name, Like)
+
+    @staticmethod
+    def new(post, user):
+        assert post
+        assert user
+
+        like = Like()
+        like.post = post
+        like.author = user
+        like.created_on = None
+
+        pk = like.save()
+        like.id = pk
+
+        return like
 
 
-class Dislike(Model):
+class Dislike(Like):
     table_name = "dislikes"
 
-    def __init__(self, data):
+    def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
 
@@ -477,18 +558,28 @@ class Dislike(Model):
     def get_by_id(pk):
         return Model._query_by_id(Dislike.table_name, Dislike, pk)
 
+    @staticmethod
+    def new(post, user):
+        assert post
+        assert user
+
+        like = Dislike()
+        like.post = post
+        like.author = user
+        like.created_on = None
+
+        pk = like.save()
+        like.id = pk
+
+        return like
+
 
 if __name__ == '__main__':
-    user = User.get_by_id(6)
-    post = Post.get_by_id(5)
-    comment = Comment.get_by_id(3)
-    comment2 = Comment.get_by_id(2)
-
-    comment.post = None
-    comment.parent = comment2
-
-    comment.save_or_update()
-
-    print(comment2.children)
-    for com in comment2.children:
-        print(com.body)
+    pass
+    # user = User.get_by_id(6)
+    # post = Post.get_by_id(5)
+    #
+    # # like = Like.new(post, user)
+    # like = Dislike.new(post, user)
+    #
+    # print(like.post.id)
