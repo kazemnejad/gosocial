@@ -28,25 +28,16 @@ $(function() {
 
 
 $(document).on('click', '#close-preview', function(){
-    $('.image-preview').popover('hide');
-    // Hover befor close the preview
-    $('.image-preview').hover(
-        function () {
-           $('.image-preview').popover('show');
-        },
-         function () {
-           $('.image-preview').popover('hide');
-        }
-    );
+
 });
 
 $(function() {
     // Create the close button
     var closebtn = $('<button/>', {
         type:"button",
-        text: 'x',
+        text: 'X',
         id: 'close-preview',
-        style: 'font-size: initial;',
+        style: 'font-size: initial; color: #fff;',
     });
     closebtn.attr("class","close pull-right");
     // Set the popover default content
@@ -80,7 +71,15 @@ $(function() {
             $(".image-preview-clear").show();
             $(".image-preview-filename").val(file.name);
             img.attr('src', e.target.result);
-            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("hide");
+		$('.image-preview').hover(
+				function () {
+				   $('.image-preview').popover('show');
+				},
+				 function () {
+				   $('.image-preview').popover('hide');
+				}
+			    );
         }
         reader.readAsDataURL(file);
     });
