@@ -212,6 +212,9 @@ class Post(Model):
     def like_count(self):
         return Like.get_count_for(self)
 
+    def dislike_count(self):
+        return Dislike.get_count_for(self)
+
     @property
     def comments(self):
         comments = self._get_property(16)
