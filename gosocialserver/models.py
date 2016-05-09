@@ -462,7 +462,7 @@ class Comment(Model):
 class Like(Model):
     table_name = "likes"
 
-    def _p_init__(self, data=tuple()):
+    def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
 
