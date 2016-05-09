@@ -1,6 +1,8 @@
 from functools import wraps
 
-from flask import g, redirect, request, url_for, session, flash, render_template, escape, abort
+import os
+from PIL import Image
+from flask import g, redirect, request, url_for, session, flash, render_template, escape, abort, current_app
 
 from gosocialserver.auth import AuthExceptions
 from gosocialserver.models import User, Post
@@ -102,3 +104,18 @@ def profile(username):
         Post).first()
 
     return render_template("profile", user=user, posts=posts)
+
+
+def make_square(address):
+    full_path = os.path.join(current_app.static_folder, address)
+    im = Image.open(full_path)
+    width, height = im.size
+
+    new_width = new_height = min(width, height)
+
+    left = (width - new_width) / 2
+    top = (height - new_height) / 2
+    right = (width + new_width) / 2
+    bottom = (height + new_height) / 2
+
+    im.crop((left, top, right, bottom)).save(full_path)
