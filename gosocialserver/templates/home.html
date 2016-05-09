@@ -14,12 +14,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/bootstrap.min.css") }}" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/mdb.min.css") }}" rel="stylesheet">
 
-    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/main.css") }}" rel="stylesheet">
 
 </head>
 
@@ -55,48 +58,48 @@
 <!--/ Nav Bar-->
 
 {% for post in posts %}
-    <div class="col-md-5" style="float: none; margin: 0 auto;">
-        <!--Image Card-->
-        <div class="card">
+<div class="col-md-5" style="float: none; margin: 0 auto;">
+    <!--Image Card-->
+    <div class="card">
 
-            <nav class="navbar info-color">
-                <div class="container-fluid" style="display: inline-block; float: left">
-                    <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
-                        <img src="image/homebg1.png" class="profile-image img-circle"
-                             style="width: auto; height: 100% ; margin: 0px; padding: 2px">
-                    </a>
-                </div>
-                <div class="navbar-header">
-                    <a class="navbar-brand waves-effect waves-light" href="#">@{{ post.author_username }}</a>
-                </div>
-            </nav>
-
-
-            <div class="card-image">
-                <div class="view overlay hm-white-slight z-depth-1">
-                    <img src="image/loginbg3.jpg" class="img-responsive" alt="">
-                </div>
-            </div>
-            <div class="card-content" style="padding: 10px 10px;">
-                <h5>{{ post.title }}</h5>
-                <p style="font-size:100%;">{{ post.body }}</p>
-            </div>
-            <!--Buttons-->
-            <div class="card-btn">
-                <a href="#" class="btn btn-sm btn-success waves-effect waves-light">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                </a>
-                <a href="#" class="btn btn-sm btn-danger waves-effect waves-light">
-                    <span class="glyphicon glyphicon-thumbs-down"></span>
-                </a>
-                <a href="#" class="btn btn-sm btn-primary waves-effect waves-light">
-                    <span class="glyphicon glyphicon-comment"></span>
+        <nav class="navbar info-color">
+            <div class="container-fluid" style="display: inline-block; float: left">
+                <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
+                    <img src="image/homebg1.png" class="profile-image img-circle"
+                         style="width: auto; height: 100% ; margin: 0px; padding: 2px">
                 </a>
             </div>
-            <!--/.Buttons-->
+            <div class="navbar-header">
+                <a class="navbar-brand waves-effect waves-light" href="#">@{{ post.author_username }}</a>
+            </div>
+        </nav>
+
+
+        <div class="card-image">
+            <div class="view overlay hm-white-slight z-depth-1">
+                <img src="image/loginbg3.jpg" class="img-responsive" alt="">
+            </div>
         </div>
-
+        <div class="card-content" style="padding: 10px 10px;">
+            <h5>{{ post.title }}</h5>
+            <p style="font-size:100%;">{{ post.body }}</p>
+        </div>
+        <!--Buttons-->
+        <div class="card-btn">
+            <a href="#" class="btn btn-sm btn-success waves-effect waves-light">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+            </a>
+            <a href="#" class="btn btn-sm btn-danger waves-effect waves-light">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
+            </a>
+            <a href="#" class="btn btn-sm btn-primary waves-effect waves-light">
+                <span class="glyphicon glyphicon-comment"></span>
+            </a>
+        </div>
+        <!--/.Buttons-->
     </div>
+
+</div>
 {% endfor %}
 
 
@@ -196,6 +199,15 @@
     </div>
 </div>
 
+<footer class="page-footer blue center-on-small-only" style="margin: 0px">
+    <div class="container-fluid">
+    </div>
+    <div class="footer-copyright text-center rgba-black-light">
+        <div class="container-fluid">
+            © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        </div>
+    </div>
+</footer>
 
 <!-- SCRIPTS -->
 
@@ -206,7 +218,8 @@
 <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- Material Design Bootstrap -->
-<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for(" static
+", filename="js/mdb.min.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
