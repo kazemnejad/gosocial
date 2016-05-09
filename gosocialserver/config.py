@@ -2,7 +2,7 @@ SECRET_KEY = 'S\xd0\xbfl:\xd7\x96\xf6\x11\xbd\x84\x85\xce4\xd0{\xd9\x8f\x0e`\xd3
 
 db = {
     "user": "root",
-    "password": "12345",
+    "password": "m1m3a7e6",
     "database": "gosocial"
 }
 
