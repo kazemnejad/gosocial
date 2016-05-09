@@ -114,6 +114,88 @@
         <i class="large material-icons">mode_edit</i>
     </a>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="row">
+                <form class="col-md-12">
+                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                    <div class="row">
+                        <div class="input-field col-md-11">
+                            <i class="material-icons prefix">bookmark</i>
+                            <input id="icon_prefix" type="text" class="validate">
+                            <label for="icon_prefix">Title</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col-md-12" style="margin: 2%; width: 96%">
+                    <div class="row">
+                        <div class="input-field col-md-12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Textarea</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">Post!
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content" style="text-align:center; width:100%">
+            <div class="container" style="text-align:center; width:100%">
+                <div class="panel panel-default" style="text-align:center; width:100%">
+
+                    <div class="panel-body" style="text-align:center; width:100%">
+
+                        <!-- Standar Form -->
+                        <h4>Select files from your computer</h4>
+                        <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <input type="file" name="files[]" id="js-upload-files" multiple>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
+                                    files
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Drop Zone -->
+                        <h4>Or drag and drop files below</h4>
+                        <div class="upload-drop-zone" id="drop-zone">
+                            Just drag and drop files here
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: 60%;">
+                                <span class="sr-only">60% Complete</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div> <!-- /container -->
+        </div>
+
+    </div>
+</div>
+
 <footer class="page-footer blue center-on-small-only" style="margin: 0px">
     <div class="container-fluid">
     </div>
@@ -124,6 +206,7 @@
 </footer>
 <!-- SCRIPTS -->
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
@@ -131,7 +214,6 @@
 <!-- Material Design Bootstrap -->
 <script type="text/javascript" src="../static/js/mdb.js"></script>
 <script type="text/javascript" src="../static/js/ui.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="../static/js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
                     $(document).ready(function() {
@@ -141,6 +223,7 @@
             		});
 	        });
 		$("a[href$='../static/image/1_b.jpg'],a[href$='../static/image/2_b.jpeg'],a[href$='../static/image/3_b.jpg'],a[href$='../static/image/4_b.jpg']").attr('rel', 'gallery').fancybox();
+
 
 
 </script>
