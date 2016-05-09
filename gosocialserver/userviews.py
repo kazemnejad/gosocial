@@ -12,6 +12,9 @@ from gosocialserver.server import app
 
 @app.before_request
 def load_user():
+    if str(request.path).startswith("static"):
+        return
+
     if session.get("user_id", None):
         user = User.get_by_id(session["user_id"])
     else:

@@ -604,7 +604,6 @@ class Dislike(Like):
     @staticmethod
     def get_count_for(post):
         sql = "SELECT COUNT(*) as dislike_counts FROM %s WHERE post_id = %s" % (Dislike.table_name, post.id)
-        print(sql, "kir")
         counts = Query(sql).with_model(Like).first()
         return counts.id if counts else 0
 
