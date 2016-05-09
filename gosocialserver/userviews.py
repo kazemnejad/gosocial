@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import g, redirect, request, url_for, session, flash, render_template
+from flask import g, redirect, request, url_for, session, flash, render_template, escape
 
 from gosocialserver.auth import AuthExceptions
 from gosocialserver.models import User
@@ -56,26 +56,25 @@ def register():
 
     error = None
     if request.method == 'POST':
-        username = request.form['unname']
+        username = escape(request.form['unname'])
         email = request.form['email']
         password = request.form['pass']
         first_name = request.form['fname']
         last_name = request.form['lname']
 
         try:
-            user = User.new_user(username, email, password, first_name, last_name);
+            user = User.new_user(username, email, password, first_name, last_name)
             if not user:
-                error = "Unable to register!"
+                error = "Unable to register1!"
             else:
+                print(user.id)
                 session['user_id'] = user.id
                 g.user = user
                 flash("You have successfully signed up!")
                 return redirect(url_for("index"))
         except AuthExceptions.UserExistException:
             error = "Username or email exists!, try another one!"
-        except:
-            error = "Unable to register."
-
+    print(error)
     return render_template("loginpage.html", errors=[error] if error else [])
 
 
@@ -85,3 +84,8 @@ def logout():
     g.user = None
     flash('You were logged out')
     return redirect(url_for('index'))
+
+
+@app.route("/users/<string:username>", methods=['GET'])
+def profile(username):
+    pass
