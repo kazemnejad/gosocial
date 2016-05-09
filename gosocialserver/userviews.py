@@ -1,9 +1,10 @@
 from functools import wraps
 
-from flask import g, redirect, request, url_for, session, flash, render_template, escape
+from flask import g, redirect, request, url_for, session, flash, render_template, escape, abort
 
 from gosocialserver.auth import AuthExceptions
-from gosocialserver.models import User
+from gosocialserver.models import User, Post
+from gosocialserver.orm import Select, column
 from gosocialserver.server import app
 
 
@@ -89,4 +90,15 @@ def logout():
 
 @app.route("/users/<string:username>", methods=['GET'])
 def profile(username):
-    pass
+    if len(username) == 0:
+        abort(404)
+
+    user = Select().star().From(User.table_name).filter(column("username").equal(username)).to_query().with_model(
+        User).first()
+    if not user:
+        abort(404)
+
+    posts = Select().star().From(Post.table_name).filter(column("post_id").equal(user.id)).to_query().with_model(
+        Post).first()
+
+    return render_template("profile", user=user, posts=posts)

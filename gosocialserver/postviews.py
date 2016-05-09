@@ -16,7 +16,7 @@ def index():
     return render_template("home.html", posts=posts, user=g.user)
 
 
-@app.route("/posts/<int:id>", methods=['GET'])
+@app.route("/posts/<int:post_id>", methods=['GET'])
 def show_post(post_id):
     post = Post.get_by_id(post_id)
     if not post:
@@ -25,7 +25,11 @@ def show_post(post_id):
     like_count = Like.get_count_for(post)
     dislike_count = Like.get_count_for(post)
 
-    return render_template("postview.html", post=post, like_count=like_count, dislike_count=dislike_count)
+    return render_template("postview.html",
+                           post=post,
+                           like_count=like_count,
+                           dislike_count=dislike_count,
+                           comments=post.comments)
 
 
 @app.route("/posts/add", methods=['GET', 'POST'])
