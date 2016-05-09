@@ -1,71 +1,87 @@
-$(function () {
+$(function() {
 
-    $('#login-form-link').click(function (e) {
-        $("#login-form").delay(100).fadeIn(100);
-        $("#register-form").fadeOut(100);
-        $('#register-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
-    $('#register-form-link').click(function (e) {
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
-    $('#MyBody').load(function (e) {
-        window.alert(5 + 6);
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        window.alert(5 + 6);
-        e.preventDefault();
-    });
+    $('#login-form-link').click(function(e) {
+		$("#login-form").delay(100).fadeIn(100);
+ 		$("#register-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+	$('#register-form-link').click(function(e) {
+		$("#register-form").delay(100).fadeIn(100);
+ 		$("#login-form").fadeOut(100);
+		$('#login-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+  $('#MyBody').load(function(e) {
+    window.alert(5 + 6);
+		$("#register-form").delay(100).fadeIn(100);
+ 		$("#login-form").fadeOut(100);
+		$('#login-form-link').removeClass('active');
+		$(this).addClass('active');
+    window.alert(5 + 6);
+		e.preventDefault();
+	});
 });
 
-+function ($) {
-    'use strict';
-
-    // UPLOAD CLASS DEFINITION
-    // ======================
-
-    var dropZone = document.getElementById('drop-zone');
-    var uploadForm = document.getElementById('js-upload-form');
-
-    var startUpload = function (files) {
-        console.log(files)
-    }
-
-    uploadForm.addEventListener('submit', function (e) {
-        var uploadFiles = document.getElementById('js-upload-files').files;
-        e.preventDefault()
-
-        startUpload(uploadFiles)
-    })
-
-    dropZone.ondrop = function (e) {
-        e.preventDefault();
-        this.className = 'upload-drop-zone';
-
-        startUpload(e.dataTransfer.files)
-    }
-
-    dropZone.ondragover = function () {
-        this.className = 'upload-drop-zone drop';
-        return false;
-    }
-
-    dropZone.ondragleave = function () {
-        this.className = 'upload-drop-zone';
-        return false;
-    }
-
-}(jQuery);
-
-$(document).ready(function () {
 
 
-    $("[data-toggle=tooltip]").tooltip();
+$(document).on('click', '#close-preview', function(){
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+           $('.image-preview').popover('show');
+        },
+         function () {
+           $('.image-preview').popover('hide');
+        }
+    );
+});
+
+$(function() {
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type:"button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;',
+    });
+    closebtn.attr("class","close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement:'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function (){
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width:250,
+            height:200
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+        }
+        reader.readAsDataURL(file);
+    });
 });
