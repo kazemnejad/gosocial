@@ -34,7 +34,7 @@ def like_post(post_id):
 
     like = Like.new(post, g.user)
     if like:
-        return "0"
+        return str(Like.get_count_for(post))
     else:
         return "-3"
 
@@ -66,6 +66,6 @@ def dislike_post(post_id):
 
     dislike = Dislike.new(post, g.user)
     if dislike:
-        return "0"
+        return str(Dislike.get_count_for(post))
     else:
         return "-3"
