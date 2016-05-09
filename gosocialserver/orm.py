@@ -1,6 +1,7 @@
 import datetime
 from abc import ABC, abstractmethod
 
+import markupsafe
 from mysql.connector import MySQLConnection, conversion
 
 from gosocialserver import config
@@ -9,6 +10,8 @@ from gosocialserver import config
 def get_value_str(value):
     if not value:
         return "NULL"
+    if isinstance(value,markupsafe.Markup):
+        value = str(value)
 
     return '"%s"' % conversion.MySQLConverter().escape(str(value)) if type(value) is str or isinstance(value, datetime.datetime) else str(value)
 
