@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GoSocial!</title>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet"/>
+    <!--<link href="css/rotating-card.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="../static/css/jquery.fancybox.css" type="text/css" media="screen"/>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Material Design Bootstrap -->
+    <link href="../static/css/mdb.min.css" rel="stylesheet">
+    <link href="../static/css/main.css" rel="stylesheet">
+    <style>
+        kbd{
+        background-color : white;
+        color : black;
+        }
+
+        body {
+        margin-top: 60px;
+        font-size: 14px;
+        font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+        background-color: #E5E9ED;
+        }
+    </style>
+
+</head>
+<body>
+<div class="space-30"></div>
+<div class="space-30"></div>
+<div class="space-30"></div>
+
+<!-- Nav Bar-->
+<nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand " href="home.html">
+                <span class="glyphicon glyphicon-home"></span>
+            </a>
+        </div>
+        <div class="navbar-header">
+            <p class="navbar-brand" href="#">@Username</p>
+        </div>
+        <div class="navbar-header">
+            <a href="editprofile.html" class="navbar-brand">
+                edit profile
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
+             style="background-color: #3F729B !important;">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container" style="height:auto">
+    <div class="row" style="height:auto">
+        <div class="col-sm-10 col-sm-offest-1" style="height:auto">
+            <div class="col-sm-4 center" style="height:auto">
+                <div class="card-container" style="height:auto">
+                    <div class="card" style="height:auto">
+                        <div class="front" style="height:auto">
+                            <div class="cover" style="overflow:initial;">
+                                <img src="../static/image/rotating_card_thumb2.png"/>
+                            </div>
+                            <div class="user" style="height : 30%;">
+                                <a href="image/homebg1.png">
+                                    <img class="img-circle" src="../static/image/homebg1.png"/>
+                                </a>
+                            </div>
+                            <div class="content">
+                                <div class="main">
+                                    <h3 class="name"><kbd>John Marvel</kbd></h3>
+
+                                    <p class="text-center"><kbd>"I'm the new Sinatra, and since I made it here I can
+                                        make it
+                                        anywhere, yeah, they love me everywhere"</kbd></p>
+                                </div>
+                            </div>
+                        </div> <!-- end front panel -->
+
+                    </div> <!-- end card -->
+                </div> <!-- end card-container -->
+            </div>
+            <div class="col-sm-8 center">
+                <a href="../static/image/1_b.jpg" class="fancybox" data-fancybox-group="gallery" title="Sample title 1"><img
+                        src="../static/image/1_s.jpg"/></a>
+                <a href="../static/image/2_b.jpg" class="fancybox" data-fancybox-group="gallery" title="Sample title 1"><img
+                        src="../static/image/2_s.jpg"/></a>
+                <a href="../static/image/3_b.jpg" class="fancybox" data-fancybox-group="gallery" title="Sample title 1"><img
+                        src="../static/image/3_s.jpg"/></a>
+                <a href="../static/image/4_b.jpg" class="fancybox" data-fancybox-group="gallery" title="Sample title 1"><img
+                        src="../static/image/4_s.jpg"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-action-btn" style="position: fixed; bottom: 5%; right: 5%;">
+    <ul>
+        <li><a class="btn-floating yellow darken-1" data-toggle="modal" data-target="#myModal1"><i
+                class="material-icons">format_quote</i></a></li>
+        <li><a class="btn-floating blue" data-toggle="modal" data-target="#myModal2"><i class="material-icons">attach_file</i></a>
+        </li>
+    </ul>
+    <a class="btn-floating btn-large red">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+</div>
+<footer class="page-footer blue center-on-small-only" style="margin: 0px">
+    <div class="container-fluid">
+    </div>
+    <div class="footer-copyright text-center rgba-black-light">
+        <div class="container-fluid">© 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        </div>
+    </div>
+</footer>
+<!-- SCRIPTS -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+
+<!-- Material Design Bootstrap -->
+<script type="text/javascript" src="../static/js/mdb.js"></script>
+<script type="text/javascript" src="../static/js/ui.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+                    $(document).ready(function() {
+            		$('.fancybox').fancybox({
+                		padding : 0,
+		                openEffect  : 'elastic'
+            		});
+	        });
+		$("a[href$='../static/image/1_b.jpg'],a[href$='../static/image/2_b.jpeg'],a[href$='../static/image/3_b.jpg'],a[href$='../static/image/4_b.jpg']").attr('rel', 'gallery').fancybox();
+
+
+</script>
+</body>
+</html>
