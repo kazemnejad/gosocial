@@ -14,12 +14,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/bootstrap.min.css") }}" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/mdb.min.css") }}" rel="stylesheet">
 
-    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/main.css") }}" rel="stylesheet">
 
 </head>
 
@@ -77,7 +80,7 @@
                 <img src="image/loginbg3.jpg" class="img-responsive" alt="">
             </div>
         </div>
-        <div class="card-content" style="padding: 10px 10px;">
+        <div class="card-content" style="padding: 20px 20px; margin: 15px;">
             <h5>{{ post.title }}</h5>
             {% autoescape false %}
             <p style="font-size:100%;">{{ post.body }}</p>
@@ -91,9 +94,6 @@
             </a>
             <a href="#" class="btn btn-sm btn-danger waves-effect waves-light">
                 <span class="glyphicon glyphicon-thumbs-down"></span>
-            </a>
-            <a href="#" class="btn btn-sm btn-primary waves-effect waves-light">
-                <span class="glyphicon glyphicon-comment"></span>
             </a>
         </div>
         <!--/.Buttons-->
@@ -199,6 +199,15 @@
     </div>
 </div>
 
+<footer class="page-footer blue center-on-small-only" style="margin: 0px">
+    <div class="container-fluid">
+    </div>
+    <div class="footer-copyright text-center rgba-black-light">
+        <div class="container-fluid">
+            © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        </div>
+    </div>
+</footer>
 
 <!-- SCRIPTS -->
 
@@ -209,7 +218,8 @@
 <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- Material Design Bootstrap -->
-<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for(" static
+", filename="js/mdb.min.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
