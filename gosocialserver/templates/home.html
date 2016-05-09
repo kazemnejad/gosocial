@@ -62,7 +62,8 @@
         <nav class="navbar info-color">
             <div class="container-fluid" style="display: inline-block; float: left">
                 <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
-                    <img src="image/homebg1.png" class="profile-image img-circle"
+                    <img src="{{ url_for("static", filename=post.author_profile_pic) }}"
+                         class="profile-image img-circle"
                          style="width: auto; height: 100% ; margin: 0px; padding: 2px">
                 </a>
             </div>
@@ -72,14 +73,17 @@
         </nav>
 
 
-        <div class="card-image">
-            <div class="view overlay hm-white-slight z-depth-1">
-                <img src="image/loginbg3.jpg" class="img-responsive" alt="">
-                <a href="postview.html">
-                    <div class="mask waves-effect"></div>
-                </a>
+        {% if post.image %}
+            <div class="card-image">
+                <div class="view overlay hm-white-slight z-depth-1">
+                    <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive" alt="">
+                    <a href="postview.html">
+                        <div class="mask waves-effect"></div>
+                    </a>
+                </div>
             </div>
-        </div>
+        {% endif %}
+
         <div class="card-content" style="padding: 20px 20px; margin: 15px;">
             <h5>{{ post.title }}</h5>
             {% autoescape false %}
