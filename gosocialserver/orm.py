@@ -10,7 +10,7 @@ def get_value_str(value):
     if not value:
         return "NULL"
 
-    return '"%s"' % conversion.MySQLConverter().escape(value) if type(value) is str or isinstance(value, datetime.datetime) else str(value)
+    return '"%s"' % conversion.MySQLConverter().escape(str(value)) if type(value) is str or isinstance(value, datetime.datetime) else str(value)
 
 
 class Database:

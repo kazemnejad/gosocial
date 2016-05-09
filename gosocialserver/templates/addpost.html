@@ -60,12 +60,14 @@
 <div class="space-30"></div>
 
 <div class="col-md-8" style="background-color: #fff; float: none; margin: 0 auto; padding: 2%">
-    <form id="add-post" method="post" action="/posts/add" enctype="multipart/form-data">
+    <form id="add-post" method="post" action="{{ "/posts/%s/edit" % post.id if post else "/posts/add" }}"
+          enctype="multipart/form-data">
         <div class="row">
             <div class="row">
                 <div class="input-field col-md-12" style="margin: 2%; width: 96%">
                     <i class="material-icons prefix">bookmark</i>
-                    <input id="icon_prefix" type="text" class="validate" name="title">
+                    <input id="icon_prefix" type="text" class="validate" name="title"
+                           value="{{ post.title if post else "" }}">
                     <label for="icon_prefix">Title</label>
                 </div>
             </div>
@@ -74,7 +76,9 @@
 
             <div class="row" style="margin: 2%; width: 96%">
                 <div class="input-field col-md-12">
-                    <textarea id="editor-body" name="editor-body" class="materialize-textarea"></textarea>
+                    <textarea id="editor-body" name="editor-body" class="materialize-textarea">
+                        {{ post.body if post else "" }}
+                    </textarea>
                     <script>
                         CKEDITOR.replace('editor-body', {
                             filebrowserImageUploadUrl: '/ckupload/'

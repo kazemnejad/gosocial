@@ -53,14 +53,14 @@ def add_post():
     return render_template('addpost.html')
 
 
-@app.route("/posts/<int:id>/edit", methods=['GET', 'POST'])
+@app.route("/posts/<int:post_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
     post = Post.get_by_id(post_id)
     if not post:
         abort(404)
 
-    if post.author != g.user.id:
+    if post.author.id != g.user.id:
         abort(403)
 
     if request.method == 'POST':
@@ -86,7 +86,7 @@ def edit_post(post_id):
 
         return redirect(url_for('show_post', post_id=post.id))
 
-    return render_template('add_post', post=post)
+    return render_template('addpost.html', post=post)
 
 
 @app.route('/ckupload/', methods=['POST', 'OPTIONS'])
