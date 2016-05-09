@@ -5,7 +5,7 @@ import random
 from flask import render_template, g, request, current_app, url_for, make_response, abort, redirect
 
 import gosocialserver.config as config
-from gosocialserver.models import Post, Like
+from gosocialserver.models import Post, Like, Dislike
 from gosocialserver.server import app
 from gosocialserver.userviews import login_required
 
@@ -23,13 +23,13 @@ def show_post(post_id):
         abort(404)
 
     like_count = Like.get_count_for(post)
-    dislike_count = Like.get_count_for(post)
+    dislike_count = Dislike.get_count_for(post)
 
     return render_template("postview.html",
                            post=post,
                            like_count=like_count,
                            dislike_count=dislike_count,
-                           comments=post.comments)
+                           comments=render_comments(post.comments))
 
 
 @app.route("/posts/add", methods=['GET', 'POST'])
@@ -117,6 +117,23 @@ def ckupload():
     response.headers["Content-Type"] = "text/html"
 
     return response
+
+
+def render_comments(comments, level=1):
+    is_child = level > 1
+    result = '<ul %s >' % ('style="width: 90%; margin-left: 10%;"' if is_child else "")
+    for comment in comments:
+        result += "<li>"
+        result += render_comment(comment, level)
+        if len(comment.children) != 0:
+            result += render_comments(comment.children, level + 1)
+        result += "</li>"
+    result += "</ul>"
+    return result
+
+
+def render_comment(comment, level):
+    return app.jinja_env.get_template("comment.html").render(comment=comment, is_child=level > 1)
 
 
 def save_file(file_obj, parent_dir_path):

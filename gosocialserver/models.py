@@ -1,3 +1,4 @@
+from flask import render_template
 from passlib.apps import custom_app_context as pwd_context
 
 from gosocialserver.auth import AuthExceptions
@@ -365,8 +366,7 @@ class Comment(Model):
     def children(self):
         children = self._get_property(6)
         if not children:
-            self.saved_data[6] = self.get_child_comments()
-            children = self._get_property(6)
+            children = self.saved_data[6] = self.get_child_comments()
 
         return children
 
@@ -426,10 +426,8 @@ class Comment(Model):
     def get_child_comments(self):
         assert self.id
 
-        return Select().star().From(Comment.table_name) \
-            .filter(column("parent_id").equal(self.id)) \
-            .to_query().with_model(Comment) \
-            .all()
+        return [cm1 for cm1 in Select().star().From(Comment.table_name).filter(
+            column("parent_id").equal(self.id)).to_query().with_model(Comment).all()]
 
     def save(self):
         return self._save(Comment.table_name)
@@ -611,7 +609,13 @@ class Dislike(Like):
         return counts.id if counts else 0
 
 
+
 if __name__ == '__main__':
+    # cm = Comment.get_by_id(2)
+    # from jinja2 import Environment, PackageLoader
+    # env = Environment(loader=PackageLoader('gosocialserver', 'templates'))
+    # template = env.get_template('comment.html')
+    # print(template.render(comment=cm))
     pass
     # user = User.get_by_id(6)
     # post = Post.get_by_id(5)

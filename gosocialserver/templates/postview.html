@@ -1,10 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ post.title }} - GoSocial!</title>
+
+
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
+
+
 </head>
-<body>
+
+
+<body style=" background-color:#eee">
+
+
+<!-- Nav Bar-->
+<nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand navbar-left" style="margin: 0px; padding: 2px">
+                <img src="{{ url_for("static", filename=user.profile_pic if user else config.DEFAULT_POST_IMAGE ) }}"
+                     class="profile-image img-circle"
+                     style="width: auto; height: 100% ; margin: 2px; padding: 2px">
+            </a>
+        </div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">@{{ user.username if user else "guest" }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
+             style="background-color: #3F729B !important;">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<!--/ Nav Bar-->
+
+<div class="space-30"></div>
+<div class="space-30"></div>
+
+<header class="intro-header" style="background-image: url('{{ url_for("static", filename=post.image) }}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1><kbd>{{ post.title }}</kbd></h1>
+                    <span class="meta"><kbd>Posted by <a
+                            href="#">@{{ post.author.username }}</a> on {{ post.created_on }}</kbd></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="space-30"></div>
+<div class="space-30"></div>
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {% autoescape false %}
+                {{ post.body }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+</article>
+<!--Buttons-->
+<div class="card-btn" style="margin-left: 20%">
+    <a href="#" class="btn btn-lg btn-success waves-effect waves-light">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        {{ like_count }}
+    </a>
+    <a href="#" class="btn btn-lg btn-danger waves-effect waves-light">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        {{ dislike_count }}
+    </a>
+</div>
+<!--/.Buttons-->
+
+<div class="space-30"></div>
+
+<div class="container" style="background-color:#fff; width:100%; padding-bottom: 1%">
+    <div class="space-30"></div>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Comments</h3>
+            </div><!-- /col-sm-12 -->
+        </div><!-- /row -->
+
+        {% autoescape false %}
+        {{ comments }}
+        {% endautoescape %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget-area no-padding blank">
+                    <div class="status-upload">
+                        <form>
+                            <textarea placeholder="Leave Your Comment..."></textarea>
+                            <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- /row -->
+    </div>
+
+</div><!-- /container -->
+
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="row">
+                <form class="col-md-12">
+                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-area no-padding blank">
+                        <div class="status-upload">
+                            <form>
+                                <textarea placeholder="Leave Your Comment..."></textarea>
+                                <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Reply
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="page-footer blue center-on-small-only" style="margin: 0px">
+    <div class="container-fluid">
+    </div>
+    <div class="footer-copyright text-center rgba-black-light">
+        <div class="container-fluid">
+            © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        </div>
+    </div>
+</footer>
+
+<!-- SCRIPTS -->
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Material Design Bootstrap -->
+<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+
+<script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+s
 
 </body>
+
 </html>
