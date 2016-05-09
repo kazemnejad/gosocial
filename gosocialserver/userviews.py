@@ -74,6 +74,7 @@ def register():
                 return redirect(url_for("index"))
         except AuthExceptions.UserExistException:
             error = "Username or email exists!, try another one!"
+
     print(error)
     return render_template("loginpage.html", errors=[error] if error else [])
 
