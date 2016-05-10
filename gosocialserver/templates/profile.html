@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,16 +19,18 @@
     <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
     <style>
         kbd {
-            background-color: white;
-            color: black;
+        background-color: white;
+        color: black;
         }
         body {
-            margin-top: 60px;
-            font-size: 14px;
-            font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
-            background-color: #E5E9ED;
+        margin-top: 60px;
+        font-size: 14px;
+        font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
+        background-color: #E5E9ED;
         }
     </style>
+
+    <script src="http://cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
 
 </head>
 <body>
@@ -54,8 +55,8 @@
             </a>
         </div>
         <a href="/"><img class="navbar-right" src="{{ url_for("static", filename="image/logo.png") }}"
-                         style="float: right; width: 200px; height: auto;
-                     margin-top: -10px; margin-right: 20px"></a>
+            style="float: right; width: 200px; height: auto;
+            margin-top: -10px; margin-right: 20px"></a>
     </div>
 </nav>
 
@@ -89,13 +90,13 @@
 
             <div class="col-lg-12  center" style="height:auto;margin-top: 8px;">
                 {% for post in posts %}
-                    <a href="{{ url_for('static', filename=post.image if post.image else "media/def_post_image.jpg") }}"
-                       class="fancybox"
-                       data-fancybox-group="gallery"
-                       title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
-                            src="{{ url_for('static', filename=post.image if post.image else "media/def_post_image.jpg") }}"
-                            style="padding-bottom: 5px;height: 150px"
-                            onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                <a href="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                class="fancybox"
+                data-fancybox-group="gallery"
+                title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
+                    src="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                style="padding-bottom: 5px;height: 150px"
+                onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
                 {% endfor %}
 
 
@@ -106,8 +107,8 @@
                         <div class="container-fluid" style="display: inline-block; float: left">
                             <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
                                 <img src="{{ url_for("static", filename=post.author.profile_pic) }}"
-                                     class="profile-image img-circle"
-                                     style="width: auto; height: 100% ; margin: 0px; padding: 2px">
+                                class="profile-image img-circle"
+                                style="width: auto; height: 100% ; margin: 0px; padding: 2px">
                             </a>
                         </div>
                         <div class="navbar-header">
@@ -122,24 +123,24 @@
                                 Option <span class="caret"></span>
                             </button>
                             {% if is_my_profile %}
-                                <ul class="dropdown-menu">
-                                    <li><a href="/posts/{{ post.id }}/edit">Edit</a></li>
-                                </ul>
+                            <ul class="dropdown-menu">
+                                <li><a href="/posts/{{ post.id }}/edit">Edit</a></li>
+                            </ul>
                             {% endif %}
                         </div>
                     </nav>
 
 
                     {% if post.image %}
-                        <div class="card-image" style="margin-top: -20px;">
-                            <div class="view overlay hm-white-slight z-depth-1">
-                                <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive"
-                                     alt="">
-                                <a href="postview.html">
-                                    <div class="mask waves-effect"></div>
-                                </a>
-                            </div>
+                    <div class="card-image" style="margin-top: -20px;">
+                        <div class="view overlay hm-white-slight z-depth-1">
+                            <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive"
+                            alt="">
+                            <a href="postview.html">
+                                <div class="mask waves-effect"></div>
+                            </a>
                         </div>
+                    </div>
                     {% endif %}
 
                     <div class="card-content" style="padding: 20px 20px; margin: 15px;">
@@ -200,16 +201,23 @@
                     </div>
                 </form>
             </div>
+
             <div class="row">
-                <form class="col-md-12" style="margin: 2%; width: 96%">
-                    <div class="row">
-                        <div class="input-field col-md-12">
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Textarea</label>
-                        </div>
+                <div class="row" style="margin: 2%; width: 96%">
+                    <div class="input-field col-md-12">
+                    <textarea id="editor-body" name="editor-body" class="materialize-textarea">
+                        {{ post.body if post else "" }}
+                    </textarea>
+                        <script>
+                        CKEDITOR.replace('editor-body', {
+                            filebrowserImageUploadUrl: '/ckupload/'
+                        });
+
+                        </script>
                     </div>
-                </form>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         style="text-align: center; ;">Post!
@@ -229,33 +237,27 @@
 
                     <div class="panel-body" style="text-align:center; width:100%">
 
-                        <!-- Standar Form -->
-                        <h4>Select files from your computer</h4>
-                        <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <input type="file" name="files[]" id="js-upload-files" multiple>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary"
-                                        id="js-upload-submit">Upload
-                                    files
+                        <div class="col-md-12" style="margin: 2%; width: 96%">
+                            <!-- image-preview-filename input [CUT FROM HERE]-->
+                            <div class="input-group image-preview">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                <!-- don't give a name === doesn't send on POST/GET -->
+                            <span class="input-group-btn">
+                                <!-- image-preview-clear button -->
+                                <button type="button" class="btn btn-link wave-effect wave-light image-preview-clear"
+                                        style="display:none; text-decoration: none">
+                                    <span class="glyphicon glyphicon-remove"></span> Clear
                                 </button>
-                            </div>
-                        </form>
 
-                        <!-- Drop Zone -->
-                        <h4>Or drag and drop files below</h4>
-                        <div class="upload-drop-zone" id="drop-zone">
-                            Just drag and drop files here
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
-                            </div>
+                                <!-- image-preview-input -->
+                                <div class="btn btn-link wave-effect wave-light image-preview-input"
+                                     style=" text-decoration: none">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    <span class="image-preview-input-title">Browse</span>
+                                    <input type="file" accept="image/png, image/jpeg ,image/gif" name="image"/>
+                                </div>
+                            </span>
+                            </div><!-- /input-group image-preview [TO HERE]-->
                         </div>
 
 
@@ -302,6 +304,9 @@
             }
         }
     }
+
+
+
 </script>
 </body>
 </html>
