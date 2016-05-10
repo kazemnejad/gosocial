@@ -53,16 +53,12 @@
                 edit profile
             </a>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
-             style="background-color: #3F729B !important;">
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-            </form>
-        </div>
+        <a href="/"><img class="navbar-right" src="{{ url_for("static", filename="image/logo.png") }}"
+                         style="float: right; width: 200px; height: auto;
+                     margin-top: -10px; margin-right: 20px"></a>
     </div>
 </nav>
+
 <div class="container" style="height:auto">
     <div class="row" style="height:auto">
         <div class="col-sm-10 col-sm-offest-1" style="height:auto; width: 100%">
@@ -100,6 +96,74 @@
                             src="{{ url_for('static', filename=post.image if post.image else "media/def_post_image.jpg") }}"
                             style="padding-bottom: 5px;height: 150px"
                             onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                {% endfor %}
+
+
+                {% for post in posts %}
+                <div class="card">
+
+                    <nav class="navbar info-color">
+                        <div class="container-fluid" style="display: inline-block; float: left">
+                            <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
+                                <img src="{{ url_for("static", filename=post.author.profile_pic) }}"
+                                     class="profile-image img-circle"
+                                     style="width: auto; height: 100% ; margin: 0px; padding: 2px">
+                            </a>
+                        </div>
+                        <div class="navbar-header">
+                            <a class="navbar-brand waves-effect waves-light"
+                               href="#">@{{ post.author.username }}</a>
+                        </div>
+                        <div class="btn-group navbar-right">
+                            <button type="button" class="btn-flat btn-link dropdown-toggle"
+                                    style="color: #fff; text-decoration: none" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Option <span class="caret"></span>
+                            </button>
+                            {% if is_my_profile %}
+                                <ul class="dropdown-menu">
+                                    <li><a href="/posts/{{ post.id }}/edit">Edit</a></li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </nav>
+
+
+                    {% if post.image %}
+                        <div class="card-image" style="margin-top: -20px;">
+                            <div class="view overlay hm-white-slight z-depth-1">
+                                <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive"
+                                     alt="">
+                                <a href="postview.html">
+                                    <div class="mask waves-effect"></div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="card-content" style="padding: 20px 20px; margin: 15px;">
+                        <h5>{{ post.title }}</h5>
+                        {% autoescape false %}
+                        <p style="font-size:100%;">{{ post.body }}</p>
+                        {% endautoescape %}
+
+                    </div>
+                    <!--Buttons-->
+                    <div class="card-btn">
+                        <a class="btn btn-sm btn-success waves-effect waves-light"
+                           onclick="like({{ post.id }}, 'like-btn-{{ post.id }}', 'dislike-btn-{{ post.id }}')">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                            <span id="like-btn-{{ post.id }}">{{ post.like_count }}</span>
+                        </a>
+                        <a class="btn btn-sm btn-danger waves-effect waves-light"
+                           onclick="disLike({{ post.id }}, 'dislike-btn-{{ post.id }}', 'like-btn-{{ post.id }}')">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>
+                            <span id="dislike-btn-{{ post.id }}">{{ post.dislike_count }}</span>
+                        </a>
+                    </div>
+                    <!--/.Buttons-->
+                </div>
                 {% endfor %}
             </div>
         </div>

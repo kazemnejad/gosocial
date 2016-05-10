@@ -30,25 +30,7 @@
 <div class="space-30"></div>
 <div class="space-30"></div>
 
-<!-- Nav Bar-->
-<nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
-
-    <div class="navbar-header">
-        <a class="navbar-brand navbar-left" style="margin: 0px; padding: 2px">
-            <img src="{{ url_for("static", filename=user.profile_pic if user else "media/def_profile_pic.jpg") }}"
-                 class="profile-image img-circle"
-                 style="width: auto; height: 100% ; margin: 2px; padding: 2px">
-        </a>
-    </div>
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#">@{{ user.username if user else "guest" }}</a>
-    </div>
-    <div class="navbar-right">
-        <img src="{{ url_for("static", filename="image/logo.png") }}"
-             style="float: right; width: 15%; height: auto;">
-    </div>
-</nav>
-<!--/ Nav Bar-->
+{% include 'navbar.html' %}
 
 {% for post in posts %}
 <div class="col-md-5" style="float: none; margin: 0 auto;">
