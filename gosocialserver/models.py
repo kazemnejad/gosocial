@@ -242,6 +242,11 @@ class Post(Model):
             "user_id": self.author.id
         }
 
+    def delete(self):
+        sql = "delete from %s where `id` = %d" % (self.table_name, self.id)
+        cur = Query(sql).execute()
+        cur.close()
+
     def save_or_update(self):
         return self._save_or_update(self.table_name, Post)
 
@@ -293,7 +298,8 @@ class Post(Model):
         sql = """SELECT P.id,P.title, P.body,P.image, P.created_on,P.updated_on, P.user_id, U.username,U.profile_pic
             FROM posts P, users U
             WHERE (P.user_id = U.id)
-            GROUP By P.id"""
+            GROUP By P.id
+            ORDER BY id DESC"""
 
         return Query(sql).with_model(Post).all()
 

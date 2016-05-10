@@ -19,14 +19,15 @@
     <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
     <style>
         kbd {
-        background-color: white;
-        color: black;
+            background-color: white;
+            color: black;
         }
+
         body {
-        margin-top: 60px;
-        font-size: 14px;
-        font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
-        background-color: #E5E9ED;
+            margin-top: 60px;
+            font-size: 14px;
+            font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
+            background-color: #E5E9ED;
         }
     </style>
 
@@ -49,12 +50,12 @@
             <p class="navbar-brand">{{ user.username }}</p>
         </div>
         <div class="navbar-header">
-            <a href="/users/{{user.username}}/edit" class="navbar-brand">
+            <a href="/users/{{ user.username }}/edit" class="navbar-brand">
                 edit profile
             </a>
         </div>
         <a href="/"><img class="navbar-right" src="{{ url_for("static", filename="image/logo.png") }}"
-            style="float: right; width: 200px; height: auto;
+                         style="float: right; width: 200px; height: auto;
             margin-top: -10px; margin-right: 20px"></a>
     </div>
 </nav>
@@ -89,13 +90,13 @@
 
             <div class="col-lg-12  center" style="height:auto;margin-top: 8px;">
                 {% for post in posts %}
-                <a href="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
-                class="fancybox"
-                data-fancybox-group="gallery"
-                title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
-                    src="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
-                style="padding-bottom: 5px;height: 150px"
-                onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                    <a href="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                       class="fancybox"
+                       data-fancybox-group="gallery"
+                       title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
+                            src="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                            style="padding-bottom: 5px;height: 150px"
+                            onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
                 {% endfor %}
 
 
@@ -106,8 +107,8 @@
                         <div class="container-fluid" style="display: inline-block; float: left">
                             <a class="navbar-brand navbar-left" style="margin:2px; padding: 0px">
                                 <img src="{{ url_for("static", filename=post.author.profile_pic) }}"
-                                class="profile-image img-circle"
-                                style="width: auto; height: 100% ; margin: 0px; padding: 2px">
+                                     class="profile-image img-circle"
+                                     style="width: auto; height: 100% ; margin: 0px; padding: 2px">
                             </a>
                         </div>
                         <div class="navbar-header">
@@ -115,31 +116,32 @@
                                href="#">@{{ post.author.username }}</a>
                         </div>
                         <div class="btn-group navbar-right">
-                            <button type="button" class="btn-flat btn-link dropdown-toggle"
-                                    style="color: #fff; text-decoration: none" data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                Option <span class="caret"></span>
-                            </button>
                             {% if is_my_profile %}
-                            <ul class="dropdown-menu">
-                                <li><a href="/posts/{{ post.id }}/edit">Edit</a></li>
-                            </ul>
+                                <button type="button" class="btn-flat btn-link dropdown-toggle"
+                                        style="color: #fff; text-decoration: none" data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Option <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/posts/{{ post.id }}/edit">Edit</a></li>
+                                    <li><a href="/posts/{{ post.id }}/delete">Delete</a></li>
+                                </ul>
                             {% endif %}
                         </div>
                     </nav>
 
 
                     {% if post.image %}
-                    <div class="card-image" style="margin-top: -20px;">
-                        <div class="view overlay hm-white-slight z-depth-1">
-                            <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive"
-                            alt="">
-                            <a href="/posts/{{post.id}}">
-                                <div class="mask waves-effect"></div>
-                            </a>
+                        <div class="card-image" style="margin-top: -20px;">
+                            <div class="view overlay hm-white-slight z-depth-1">
+                                <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive"
+                                     alt="">
+                                <a href="/posts/{{ post.id }}">
+                                    <div class="mask waves-effect"></div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
 
                     <div class="card-content" style="padding: 20px 20px; margin: 15px;">
@@ -208,9 +210,9 @@
                         {{ post.body if post else "" }}
                     </textarea>
                         <script>
-                        CKEDITOR.replace('editor-body', {
-                            filebrowserImageUploadUrl: '/ckupload/'
-                        });
+                            CKEDITOR.replace('editor-body', {
+                                filebrowserImageUploadUrl: '/ckupload/'
+                            });
 
                         </script>
                     </div>
@@ -303,7 +305,6 @@
             }
         }
     }
-
 
 
 </script>

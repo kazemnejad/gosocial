@@ -66,10 +66,7 @@ def edit_post(post_id):
     if not post:
         abort(404)
 
-    print(post.author.id)
-    print(g.user.id)
-
-    if int(post.author.id) != int(g.user.id):
+    if post.author.id != g.user.id:
         abort(403)
 
     if request.method == 'POST':
@@ -98,6 +95,20 @@ def edit_post(post_id):
         return redirect(url_for('show_post', post_id=post.id))
 
     return render_template('addpost.html', post=post)
+
+
+@app.route("/posts/<int:post_id>/delete", methods=['GET'])
+@login_required
+def delete_post(post_id):
+    post = Post.get_by_id(post_id)
+    if not post:
+        abort(404)
+
+    if post.author.id != g.user.id:
+        abort(403)
+
+    post.delete()
+    return redirect(url_for("profile", username=post.author.username))
 
 
 @app.route("/posts/<int:post_id>/comments/add", methods=['POST'])
