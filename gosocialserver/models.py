@@ -1,9 +1,8 @@
-from flask import render_template
 from passlib.apps import custom_app_context as pwd_context
 
-from gosocialserver.config import DEFAULT_PROFILE_PIC
 from gosocialserver.auth import AuthExceptions
-from gosocialserver.orm import Model, Select, column, Insert, Query
+from gosocialserver.config import DEFAULT_PROFILE_PIC
+from gosocialserver.orm import Model, Select, column, Query
 
 
 class User(Model):
@@ -71,7 +70,8 @@ class User(Model):
                 "email": self.email,
                 "password": self.password,
                 "first_name": self.first_name,
-                "last_name": self.last_name}
+                "last_name": self.last_name,
+                "profile_pic": self.profile_pic}
 
     def save(self):
         return self._save(self.table_name)
