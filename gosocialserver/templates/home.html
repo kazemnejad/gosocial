@@ -49,7 +49,8 @@
                 </a>
             </div>
             <div class="navbar-header">
-                <a class="navbar-brand waves-effect waves-light" href="/users/{{ post.author_username }}">@{{ post.author_username }}</a>
+                <a class="navbar-brand waves-effect waves-light"
+                   href="/users/{{ post.author_username }}">@{{ post.author_username }}</a>
             </div>
 
         </nav>
@@ -59,7 +60,7 @@
             <div class="card-image" style="margin-top: -20px;">
                 <div class="view overlay hm-white-slight z-depth-1">
                     <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive" alt="">
-                    <a href="/posts/{{post.id}}">
+                    <a href="/posts/{{ post.id }}">
                         <div class="mask waves-effect"></div>
                     </a>
                 </div>
@@ -69,8 +70,9 @@
         <div class="card-content" style="padding: 20px 20px; margin: 15px;">
             <h5>{{ post.title }}</h5>
             {% autoescape false %}
-            <p style="font-size:100%;">{{ post.body }}</p>
+            <p style="font-size:100%;">{{ post.body[:340] + "..." if post.body|length > 140 else post.body }}</p>
             {% endautoescape %}
+
 
         </div>
         <!--Buttons-->
@@ -85,6 +87,11 @@
                 <span class="glyphicon glyphicon-thumbs-down"></span>
                 <span id="dislike-btn-{{ post.id }}">{{ post.dislike_count }}</span>
             </a>
+
+            <button type="button" class="btn-flat btn-link"
+                    style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
+                    Read More
+            </button>
         </div>
         <!--/.Buttons-->
     </div>
@@ -111,63 +118,64 @@
 </div>
 <!-- add btn -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal1" role="dialog">
-        <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="row">
-                    <form class="col-md-12">
-                        <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
-                        <div class="row">
-                            <div class="input-field col-md-11">
-                                <i class="material-icons prefix">bookmark</i>
-                                <input id="icon_prefix" type="text" class="validate">
-                                <label for="icon_prefix">Title</label>
-                            </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="row">
+                <form class="col-md-12">
+                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                    <div class="row">
+                        <div class="input-field col-md-11">
+                            <i class="material-icons prefix">bookmark</i>
+                            <input id="icon_prefix" type="text" class="validate">
+                            <label for="icon_prefix">Title</label>
                         </div>
-                    </form>
-                </div>
-                <div class="row" style="margin: 2%; width: 96%">
-                    <div class="input-field col-md-12">
+                    </div>
+                </form>
+            </div>
+            <div class="row" style="margin: 2%; width: 96%">
+                <div class="input-field col-md-12">
                         <textarea id="editor-body" name="editor-body" class="materialize-textarea">
                             {{ post.body if post else "" }}
                         </textarea>
-                        <script>
-                            CKEDITOR.replace('editor-body', {
-                                filebrowserImageUploadUrl: '/ckupload/'
-                            });
-                        </script>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">
-                        Post!
-                    </button>
+                    <script>
+                        CKEDITOR.replace('editor-body', {
+                            filebrowserImageUploadUrl: '/ckupload/'
+                        });
+                    </script>
                 </div>
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">
+                    Post!
+                </button>
+            </div>
         </div>
+
     </div>
+</div>
 
-    <div class="modal fade" id="myModal2" role="dialog">
-        <div class="modal-dialog">
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
 
-            <div class="modal-content" style="text-align:center; width:100%">
-                <div class="container" style="text-align:center; width:100%">
-                    <div class="panel panel-default" style="text-align:center; width:100%">
+        <div class="modal-content" style="text-align:center; width:100%">
+            <div class="container" style="text-align:center; width:100%">
+                <div class="panel panel-default" style="text-align:center; width:100%">
 
-                        <div class="panel-body" style="text-align:center; width:100%">
+                    <div class="panel-body" style="text-align:center; width:100%">
 
-                            <div class="col-md-12" style="margin: 2%; width: 96%">
-                                <!-- image-preview-filename input [CUT FROM HERE]-->
-                                <div class="input-group image-preview">
-                                    <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                                    <!-- don't give a name === doesn't send on POST/GET -->
+                        <div class="col-md-12" style="margin: 2%; width: 96%">
+                            <!-- image-preview-filename input [CUT FROM HERE]-->
+                            <div class="input-group image-preview">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                <!-- don't give a name === doesn't send on POST/GET -->
                                             <span class="input-group-btn">
                                                 <!-- image-preview-clear button -->
-                                                <button type="button" class="btn btn-link wave-effect wave-light image-preview-clear"
+                                                <button type="button"
+                                                        class="btn btn-link wave-effect wave-light image-preview-clear"
                                                         style="display:none; text-decoration: none">
                                                     <span class="glyphicon glyphicon-remove"></span> Clear
                                                 </button>
@@ -177,37 +185,38 @@
                                                      style=" text-decoration: none">
                                                     <span class="glyphicon glyphicon-folder-open"></span>
                                                     <span class="image-preview-input-title">Browse</span>
-                                                    <input type="file" accept="image/png, image/jpeg ,image/gif" name="image"/>
+                                                    <input type="file" accept="image/png, image/jpeg ,image/gif"
+                                                           name="image"/>
                                                 </div>
                                             </span>
-                                </div><!-- /input-group image-preview [TO HERE]-->
-                            </div>
-
-
+                            </div><!-- /input-group image-preview [TO HERE]-->
                         </div>
+
+
                     </div>
-                </div> <!-- /container -->
-            </div>
-
+                </div>
+            </div> <!-- /container -->
         </div>
+
     </div>
+</div>
 
-    {% include 'footer.html' %}
+{% include 'footer.html' %}
 
-    <!-- SCRIPTS -->
+<!-- SCRIPTS -->
 
-    <!-- JQuery -->
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<!-- JQuery -->
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
 
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    <!-- Material Design Bootstrap -->
-    <script type="text/javascript" src="{{ url_for("static", filename="js/mdb.js") }}"></script>
+<!-- Material Design Bootstrap -->
+<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.js") }}"></script>
 
-    <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
-    <script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
 
 </body>
 
