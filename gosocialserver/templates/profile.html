@@ -71,8 +71,8 @@
 <div class="container" style="height:auto">
     <div class="row" style="height:auto">
         <div class="col-sm-10 col-sm-offest-1" style="height:auto; width: 100%">
-            <div class="col-sm-3 center" style="height:auto;">
-                <div class="card-container" style="height:auto">
+            <div class="col-md-4 col-sm-6" style="height:auto;">
+                <div class="card-container" style="height:auto ">
                     <div class="card" style="height:auto">
                         <div class="front" style="height:auto">
                             <div class="cover" style="overflow:initial;">
@@ -96,7 +96,7 @@
                 </div> <!-- end card-container -->
             </div>
 
-            <div class="col-lg-12  center" style="height:auto;margin-top: 8px;">
+            <div class="col-md-8 col-sm-6" style="height:auto;margin-top: 8px;">
                 {% for post in posts %}
                     <a href="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
                        class="fancybox"
