@@ -5,7 +5,8 @@
 
     <link href="{{url_for('static',file_name='css/bootstrap.css')}}" rel="stylesheet"/>
     <!--<link href="css/rotating-card.css" rel="stylesheet"/>-->
-    <link rel="stylesheet" href="{{url_for('static',filename = 'css/jquery.fancybox.css')}}" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/jquery.fancybox.css')}}" type="text/css"
+          media="screen"/>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Material Design Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -13,9 +14,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Material Design Bootstrap -->
-    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/mdb.min.css") }}" rel="stylesheet">
 
-    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
+    <link href="{{ url_for(" static
+    ", filename="css/main.css") }}" rel="stylesheet">
     <style>
         kbd{
         background-color : white;
@@ -93,7 +96,8 @@
                 {{% for post in posts &}}
                 <a href="url_for('static', filename=post.image)" class="fancybox" data-fancybox-group="gallery"
                    title={{post.title}}><img
-                        src="url_for('static', filename=post.image)"/></a>
+                        src="url_for('static', filename=post.image)" style="padding-bottom: 5px;"
+                        onmousedown="isKeyPressed(event,{{ post.id }},{{user.is_my_profile}})"/></a>
                 {{% endfor %}}
             </div>
         </div>
@@ -210,7 +214,8 @@
 <script type="text/javascript" src="{{url_for('static' , filename = 'js/jquery.fancybox.pack.js')}}"></script>
 
 <!-- Material Design Bootstrap -->
-<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for(" static
+", filename="js/mdb.min.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
@@ -221,6 +226,17 @@
 		                openEffect  : 'elastic'
             		});
 	        });
+            function isKeyPressed(event , postId , isMyProfile){
+                if (event.ctrlKey){
+                    window.location.href = "/posts/"+postId.toString();
+                }
+                else if(event.shiftKey){
+                    if(isMyProfile){
+                        window.location.href = "posts/"+postId.toString()+"/edit";
+                    }
+                }
+            }
+
 
 
 
