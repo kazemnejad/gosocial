@@ -549,6 +549,12 @@ class Like(Model):
     def save_or_update(self):
         return self._save_or_update(self.table_name, Like)
 
+    def delete(self):
+        sql = "delete from %s where `id` = %d" % (self.table_name, self.id)
+        print(sql)
+        cur = Query(sql).execute()
+        cur.close()
+
     @staticmethod
     def new(post, user):
         assert post
@@ -566,7 +572,6 @@ class Like(Model):
 
     @staticmethod
     def get_count_for(post):
-        print(post.id)
         sql = "SELECT COUNT(*) as like_counts FROM %s WHERE post_id = %s" % (Like.table_name, post.id)
         counts = Query(sql).with_model(Like).first()
         return counts.id if counts else 0
@@ -607,7 +612,6 @@ class Dislike(Like):
         sql = "SELECT COUNT(*) as dislike_counts FROM %s WHERE post_id = %s" % (Dislike.table_name, post.id)
         counts = Query(sql).with_model(Like).first()
         return counts.id if counts else 0
-
 
 
 if __name__ == '__main__':

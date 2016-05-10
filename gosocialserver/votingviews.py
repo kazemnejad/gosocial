@@ -21,7 +21,9 @@ def like_post(post_id):
         .first()
 
     if like:
-        return "-1"
+        like.delete()
+    else:
+        Like.new(post, g.user)
 
     dislike = Select().star().From(Dislike.table_name) \
         .filter(column("post_id").equal(post.id)) \
@@ -30,13 +32,11 @@ def like_post(post_id):
         .to_query().with_model(Dislike) \
         .first()
     if dislike:
-        return "-2"
+        dislike.delete()
 
-    like = Like.new(post, g.user)
-    if like:
-        return str(Like.get_count_for(post))
-    else:
-        return "-3"
+    like_count = Like.get_count_for(post)
+    dislike_count = Dislike.get_count_for(post)
+    return str(like_count) + '|' + str(dislike_count)
 
 
 @app.route("/posts/<int:post_id>/dislike", methods=['GET'])
@@ -53,7 +53,9 @@ def dislike_post(post_id):
         .to_query().with_model(Dislike) \
         .first()
     if dislike:
-        return "-1"
+        dislike.delete()
+    else:
+        Dislike.new(post, g.user)
 
     like = Select().star().From(Like.table_name) \
         .filter(column("post_id").equal(post.id)) \
@@ -62,10 +64,8 @@ def dislike_post(post_id):
         .to_query().with_model(Like) \
         .first()
     if like:
-        return "-2"
+        like.delete()
 
-    dislike = Dislike.new(post, g.user)
-    if dislike:
-        return str(Dislike.get_count_for(post))
-    else:
-        return "-3"
+    like_count = Like.get_count_for(post)
+    dislike_count = Dislike.get_count_for(post)
+    return str(dislike_count) + '|' + str(like_count)
