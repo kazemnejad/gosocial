@@ -4,10 +4,13 @@ import os
 from PIL import Image
 from flask import g, redirect, request, url_for, session, flash, render_template, escape, abort, current_app
 
+import gosocialserver.config as config
 from gosocialserver.auth import AuthExceptions
 from gosocialserver.models import User, Post
 from gosocialserver.orm import Select, column
+from gosocialserver.postviews import allowed_file, save_file
 from gosocialserver.server import app
+from gosocialserver.utils import login_required
 
 
 @app.before_request
@@ -21,16 +24,6 @@ def load_user():
         user = None
 
     g.user = user
-
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if g.user is None:
-            return redirect(url_for('login', next=request.url))
-        return f(*args, **kwargs)
-
-    return decorated_function
 
 
 @app.route("/auth/login", methods=['GET', 'POST'])
@@ -106,7 +99,47 @@ def profile(username):
     posts = Select().star().From(Post.table_name).filter(column("post_id").equal(user.id)).to_query().with_model(
         Post).first()
 
-    return render_template("profile", user=user, posts=posts)
+    return render_template("profile", user=user, posts=posts, is_my_profile=(g.user and g.user.id == user.id))
+
+
+@app.route("/users/<string:username>/edit", methods=["GET", "POST"])
+@login_required
+def edit_profile(username):
+    if len(username) == 0:
+        abort(404)
+
+    user = Select().star().From(User.table_name).filter(column("username").equal(username)) \
+        .to_query().with_model(User).first()
+    if not user:
+        abort(404)
+
+    if g.user.id != user.id:
+        abort(403)
+
+    if request.method == "POST":
+        first_name = request.form['fname']
+        last_name = request.form['lname']
+        profile_pic = request.files['profile_pic']
+
+        address = None
+        if profile_pic:
+            if allowed_file(profile_pic.filename):
+                address, error = save_file(profile_pic, os.path.join("media", "upload"))
+                if address == '' or error != '':
+                    abort(403)
+                make_square(address)
+            else:
+                abort(403)
+
+        user.first_name = first_name
+        user.last_name = last_name
+        if address:
+            user.profile_pic = address
+
+        user.save_or_update()
+        return redirect(url_for('profile', username=username))
+
+    return render_template("editprofile.html", user=user)
 
 
 def make_square(address):
