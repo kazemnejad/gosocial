@@ -84,3 +84,15 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
+
+$(document).ready(function(){
+
+
+    $("[data-toggle=tooltip]").tooltip();
+});
+
+$(document).ready(function(){
+
+
+    $("[data-toggle=tooltip]").tooltip();
+});
