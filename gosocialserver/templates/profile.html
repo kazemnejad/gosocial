@@ -49,11 +49,19 @@
         <div class="navbar-header">
             <p class="navbar-brand">{{ user.username }}</p>
         </div>
-        <div class="navbar-header">
-            <a href="/users/{{ user.username }}/edit" class="navbar-brand">
-                edit profile
-            </a>
-        </div>
+        {% if is_my_profile %}
+            <div class="navbar-header">
+                <a href="/users/{{ user.username }}/edit" class="navbar-brand">
+                    edit profile
+                </a>
+            </div>
+
+            <div class="navbar-header">
+                <a href="/auth/logout" class="navbar-brand">
+                    logout
+                </a>
+            </div>
+        {% endif %}
         <a href="/"><img class="navbar-right" src="{{ url_for("static", filename="image/logo.png") }}"
                          style="float: right; width: 200px; height: auto;
             margin-top: -10px; margin-right: 20px"></a>

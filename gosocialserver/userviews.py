@@ -120,7 +120,8 @@ def edit_profile(username):
     if request.method == "POST":
         first_name = request.form['fname']
         last_name = request.form['lname']
-        profile_pic = request.files['profile_pic']
+        password = request.form['password'] if 'password' in request.form else None
+        profile_pic = request.files['image']
 
         address = None
         if profile_pic:
@@ -132,10 +133,17 @@ def edit_profile(username):
             else:
                 abort(403)
 
-        user.first_name = first_name
-        user.last_name = last_name
+        if len(first_name) > 0:
+            user.first_name = first_name
+
+        if len(last_name) > 0:
+            user.last_name = last_name
+
         if address:
             user.profile_pic = address
+
+        if password and len(password):
+            user.password = User.generate_password_hash(password)
 
         user.save_or_update()
         return redirect(url_for('profile', username=username))

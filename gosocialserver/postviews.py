@@ -79,10 +79,8 @@ def edit_post(post_id):
             if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
-                    print("image2")
                     abort(403)
             else:
-                print("image")
                 abort(403)
 
         post.title = title
