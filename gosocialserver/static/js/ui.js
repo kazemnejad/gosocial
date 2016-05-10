@@ -84,3 +84,9 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
+
+$(document).ready(function(){
+
+
+    $("[data-toggle=tooltip]").tooltip();
+});
