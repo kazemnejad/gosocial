@@ -1,16 +1,16 @@
-function like(postId,likeTagId,disLikeTagId){
-    post('/posts/'+postId+'/like',postId,
-    function(data,status,xhr){
-        var spliteData = data.splite('|');
-        document.getElementById(likeTagId).innerHTML = spliteData[0];
-        document.getElementById(disLikeTagId).innerHTML = spliteData[1];
-    })
+function like(postId, likeTagId, disLikeTagId) {
+    $.get('/posts/' + postId + '/like', postId,
+        function (data, status, xhr) {
+            var splitData = data.split('|');
+            document.getElementById(likeTagId).innerHTML = splitData[0];
+            document.getElementById(disLikeTagId).innerHTML = splitData[1];
+        })
 }
-function disLike(postId,disLikeTagId,likeTagId){
-    post('/posts/'+postId+'/disLike',postId,
-    function(data,status,xhr){
-        var spliteData = data.splite('|');
-        document.getElementById(disLikeTagId).innerHTML = spliteData[0];
-        document.getElementById(likeTagId).innerHTML = spliteData[1];
-    })
+function disLike(postId, disLikeTagId, likeTagId) {
+    $.get('/posts/' + postId + '/dislike', postId,
+        function (data, status, xhr) {
+            var splitData = data.split('|');
+            document.getElementById(disLikeTagId).innerHTML = splitData[0];
+            document.getElementById(likeTagId).innerHTML = splitData[1];
+        })
 }

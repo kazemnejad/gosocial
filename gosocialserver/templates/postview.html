@@ -91,13 +91,15 @@
 </article>
 <!--Buttons-->
 <div class="card-btn" style="margin-left: 20%">
-    <a href="#" class="btn btn-lg btn-success waves-effect waves-light">
+    <a id="#like-btn" onclick="like({{ post.id }}, 'like-btn', 'dislike-btn')"
+       class="btn btn-lg btn-success waves-effect waves-light">
         <span class="glyphicon glyphicon-thumbs-up"></span>
-        {{ like_count }}
+        <span id="like-btn">{{ like_count }}</span>
     </a>
-    <a href="#" class="btn btn-lg btn-danger waves-effect waves-light">
+    <a class="btn btn-lg btn-danger waves-effect waves-light"
+       onclick="disLike({{ post.id }}, 'dislike-btn', 'like-btn')">
         <span class="glyphicon glyphicon-thumbs-down"></span>
-        {{ dislike_count }}
+        <span id="dislike-btn">{{ dislike_count }}</span>
     </a>
 </div>
 <!--/.Buttons-->
@@ -189,7 +191,8 @@
 <script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
-s
+
+<script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
 
 </body>
 

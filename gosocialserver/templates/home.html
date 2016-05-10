@@ -35,7 +35,8 @@
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand navbar-left" style="margin: 0px; padding: 2px">
-                <img src="{{ url_for("static", filename=user.profile_pic if user else "media/def_profile_pic.jpg") }}" class="profile-image img-circle"
+                <img src="{{ url_for("static", filename=user.profile_pic if user else "media/def_profile_pic.jpg") }}"
+                     class="profile-image img-circle"
                      style="width: auto; height: 100% ; margin: 2px; padding: 2px">
             </a>
         </div>
@@ -93,13 +94,15 @@
         </div>
         <!--Buttons-->
         <div class="card-btn">
-            <a href="#" class="btn btn-sm btn-success waves-effect waves-light">
+            <a class="btn btn-sm btn-success waves-effect waves-light"
+               onclick="like({{ post.id }}, 'like-btn-{{ post.id }}', 'dislike-btn-{{ post.id }}')">
                 <span class="glyphicon glyphicon-thumbs-up"></span>
-                {{ post.like_count }}
+                <span id="like-btn-{{ post.id }}">{{ post.like_count }}</span>
             </a>
-            <a href="#" class="btn btn-sm btn-danger waves-effect waves-light">
+            <a class="btn btn-sm btn-danger waves-effect waves-light"
+               onclick="disLike({{ post.id }}, 'dislike-btn-{{ post.id }}', 'like-btn-{{ post.id }}')">
                 <span class="glyphicon glyphicon-thumbs-down"></span>
-                {{ post.dislike_count }}
+                <span id="dislike-btn-{{ post.id }}">{{ post.dislike_count }}</span>
             </a>
         </div>
         <!--/.Buttons-->
@@ -110,117 +113,121 @@
 
 
 <!-- add btn -->
-<a href="/posts/add"><div class="fixed-action-btn" style="position: fixed; bottom: 5%; right: 5%;">
-    <a class="btn-floating btn-large red" href="/posts/add">
-        <i class="large material-icons">mode_edit</i>
-    </a>
-</div>
-<!-- add btn -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal1" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="row">
-                <form class="col-md-12">
-                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
-                    <div class="row">
-                        <div class="input-field col-md-11">
-                            <i class="material-icons prefix">bookmark</i>
-                            <input id="icon_prefix" type="text" class="validate">
-                            <label for="icon_prefix">Title</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-                <form class="col-md-12" style="margin: 2%; width: 96%">
-                    <div class="row">
-                        <div class="input-field col-md-12">
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Textarea</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">Post!
-                </button>
-            </div>
-        </div>
-
+<a href="/posts/add">
+    <div class="fixed-action-btn" style="position: fixed; bottom: 5%; right: 5%;">
+        <a class="btn-floating btn-large red" href="/posts/add">
+            <i class="large material-icons">mode_edit</i>
+        </a>
     </div>
-</div>
+    <!-- add btn -->
 
-<div class="modal fade" id="myModal2" role="dialog">
-    <div class="modal-dialog">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1" role="dialog">
+        <div class="modal-dialog">
 
-        <div class="modal-content" style="text-align:center; width:100%">
-            <div class="container" style="text-align:center; width:100%">
-                <div class="panel panel-default" style="text-align:center; width:100%">
-
-                    <div class="panel-body" style="text-align:center; width:100%">
-
-                        <!-- Standar Form -->
-                        <h4>Select files from your computer</h4>
-                        <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <input type="file" name="files[]" id="js-upload-files" multiple>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
-                                    files
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- Drop Zone -->
-                        <h4>Or drag and drop files below</h4>
-                        <div class="upload-drop-zone" id="drop-zone">
-                            Just drag and drop files here
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                 aria-valuemax="100" style="width: 60%;">
-                                <span class="sr-only">60% Complete</span>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="row">
+                    <form class="col-md-12">
+                        <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                        <div class="row">
+                            <div class="input-field col-md-11">
+                                <i class="material-icons prefix">bookmark</i>
+                                <input id="icon_prefix" type="text" class="validate">
+                                <label for="icon_prefix">Title</label>
                             </div>
                         </div>
-
-
-                    </div>
+                    </form>
                 </div>
-            </div> <!-- /container -->
+                <div class="row">
+                    <form class="col-md-12" style="margin: 2%; width: 96%">
+                        <div class="row">
+                            <div class="input-field col-md-12">
+                                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                <label for="textarea1">Textarea</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">
+                        Post!
+                    </button>
+                </div>
+            </div>
+
         </div>
-
     </div>
-</div>
 
-<footer class="page-footer blue center-on-small-only" style="margin: 0px">
-    <div class="container-fluid">
+    <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="text-align:center; width:100%">
+                <div class="container" style="text-align:center; width:100%">
+                    <div class="panel panel-default" style="text-align:center; width:100%">
+
+                        <div class="panel-body" style="text-align:center; width:100%">
+
+                            <!-- Standar Form -->
+                            <h4>Select files from your computer</h4>
+                            <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <input type="file" name="files[]" id="js-upload-files" multiple>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
+                                        files
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Drop Zone -->
+                            <h4>Or drag and drop files below</h4>
+                            <div class="upload-drop-zone" id="drop-zone">
+                                Just drag and drop files here
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                     aria-valuemax="100" style="width: 60%;">
+                                    <span class="sr-only">60% Complete</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div> <!-- /container -->
+            </div>
+
+        </div>
     </div>
-    <div class="footer-copyright text-center rgba-black-light">
+
+    <footer class="page-footer blue center-on-small-only" style="margin: 0px">
         <div class="container-fluid">
-            © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
         </div>
-    </div>
-</footer>
+        <div class="footer-copyright text-center rgba-black-light">
+            <div class="container-fluid">
+                © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+            </div>
+        </div>
+    </footer>
 
-<!-- SCRIPTS -->
+    <!-- SCRIPTS -->
 
-<!-- JQuery -->
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
 
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<!-- Material Design Bootstrap -->
-<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+    <!-- Material Design Bootstrap -->
+    <script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
 
-<script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+
+    <script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
 
 </body>
 
