@@ -1248,11 +1248,11 @@ border-radius: 4px;
 float: left;
 width: 100%;
 }
-.status-upload form {
+.status-upload {
 float: left;
 width: 100%;
 }
-.status-upload form textarea {
+.status-upload textarea {
 background: none repeat scroll 0 0 #fff;
 border: medium none;
 -webkit-border-radius: 4px 4px 0 0;
@@ -1308,7 +1308,7 @@ cursor: pointer;
 background: none repeat scroll 0 0 #606060;
 color: #fff;
 }
-.status-upload form button {
+.status-upload button {
 border: medium none;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
@@ -1327,7 +1327,7 @@ padding: 6px 15px;
 .dropdown > a > span.green:before {
 border-left-color: #2dcb73;
 }
-.status-upload form button > i {
+.status-upload button > i {
 margin-right: 7px;
 }
 
