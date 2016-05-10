@@ -28,9 +28,14 @@
 <div class="space-30"></div>
 
 {% include 'navbar.html' %}
+
+<div class="space-30"></div>
+<div class="space-30"></div>
+<div class="space-30"></div>
+
 <div class="collection z-depth-2"
      style="max-width: 40%; left: 30%; right: 30%; background-color:#f5f5f5; text-color:#FFFFFF">
-    <div class="row-center">
+    <div class="row-center" style="padding: 2%">
         <form class="col-md-12" id="register-form" style="display:block" method="post"
               action="/users/{{ user.username }}/edit" enctype="multipart/form-data">
             <div class="row">
@@ -88,6 +93,11 @@
 
     </div>
 </div>
+
+<div class="space-30"></div>
+<div class="space-30"></div>
+<div class="space-30"></div>
+
 {% include 'footer.html' %}
 
 

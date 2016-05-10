@@ -73,6 +73,7 @@
             <p style="font-size:100%;">{{ post.body[:340] + "..." if post.body|length > 140 else post.body }}</p>
             {% endautoescape %}
 
+
         </div>
         <!--Buttons-->
         <div class="card-btn">
@@ -86,6 +87,11 @@
                 <span class="glyphicon glyphicon-thumbs-down"></span>
                 <span id="dislike-btn-{{ post.id }}">{{ post.dislike_count }}</span>
             </a>
+
+            <button type="button" class="btn-flat btn-link"
+                    style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
+                    Read More
+            </button>
         </div>
         <!--/.Buttons-->
     </div>

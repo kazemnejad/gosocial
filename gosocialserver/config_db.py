@@ -1,5 +1,5 @@
 db = {
     "user": "root",
-    "password": "m1m3a7e6",
+    "password": "poqoieeopoe",
     "database": "gosocial"
 }
