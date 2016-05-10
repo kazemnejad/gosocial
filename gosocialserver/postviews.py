@@ -7,7 +7,7 @@ from flask import render_template, g, request, current_app, url_for, make_respon
 import gosocialserver.config as config
 from gosocialserver.models import Post, Like, Dislike
 from gosocialserver.server import app
-from gosocialserver.userviews import login_required
+from gosocialserver.utils import login_required
 
 
 @app.route("/")
@@ -25,11 +25,15 @@ def show_post(post_id):
     like_count = Like.get_count_for(post)
     dislike_count = Dislike.get_count_for(post)
 
+    if not post.image:
+        post.image = config.DEFAULT_POST_IMAGE
+
     return render_template("postview.html",
                            post=post,
                            like_count=like_count,
                            dislike_count=dislike_count,
-                           comments=render_comments(post.comments))
+                           comments=render_comments(post.comments),
+                           user=g.user)
 
 
 @app.route("/posts/add", methods=['GET', 'POST'])
@@ -48,13 +52,11 @@ def add_post():
                     abort(403)
             else:
                 abort(403)
-        else:
-            address = config.DEFAULT_POST_IMAGE
 
         post = Post.new_post(title, body, address, g.user)
         return redirect(url_for('show_post', post_id=post.id))
 
-    return render_template('addpost.html')
+    return render_template('addpost.html', user=g.user)
 
 
 @app.route("/posts/<int:post_id>/edit", methods=['GET', 'POST'])

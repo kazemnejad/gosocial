@@ -7,3 +7,5 @@ db = config_db.db
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 DEFAULT_POST_IMAGE = "media/def_post_image.jpg"
+
+DEFAULT_PROFILE_PIC = "media/def_profile_pic.jpg"

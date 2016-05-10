@@ -1,6 +1,7 @@
 from flask import render_template
 from passlib.apps import custom_app_context as pwd_context
 
+from gosocialserver.config import DEFAULT_PROFILE_PIC
 from gosocialserver.auth import AuthExceptions
 from gosocialserver.orm import Model, Select, column, Insert, Query
 
@@ -110,6 +111,7 @@ class User(Model):
         user.password = User.generate_password_hash(password)
         user.first_name = fn
         user.last_name = ln
+        user.profile_pic = DEFAULT_PROFILE_PIC
 
         pk = user.save()
         if not pk:
@@ -272,7 +274,6 @@ class Post(Model):
     def new_post(title, body, image_url, user):
         assert title
         assert body
-        assert image_url
         assert isinstance(user, User)
 
         post = Post()
