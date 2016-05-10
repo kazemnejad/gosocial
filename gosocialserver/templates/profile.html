@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GoSocial!</title>
+
+    <link href="{{url_for('static',file_name='css/bootstrap.css')}}" rel="stylesheet"/>
+    <!--<link href="css/rotating-card.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/jquery.fancybox.css')}}" type="text/css" media="screen"/>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Material Design Bootstrap -->
+    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
+    <style>
+        kbd{
+        background-color : white;
+        color : black;
+        }
+
+        body {
+        margin-top: 60px;
+        font-size: 14px;
+        font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+        background-color: #E5E9ED;
+        }
+    </style>
+
+</head>
+<body>
+<div class="space-30"></div>
+<div class="space-30"></div>
+<div class="space-30"></div>
+
+<!-- Nav Bar-->
+<nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand " href="home.html">
+                <span class="glyphicon glyphicon-home"></span>
+            </a>
+        </div>
+        <div class="navbar-header">
+            <p class="navbar-brand">{{user.username}}</p>
+        </div>
+        <div class="navbar-header">
+            <a href="editprofile.html" class="navbar-brand">
+                edit profile
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
+             style="background-color: #3F729B !important;">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container" style="height:auto">
+    <div class="row" style="height:auto">
+        <div class="col-sm-10 col-sm-offest-1" style="height:auto">
+            <div class="col-sm-4 center" style="height:auto">
+                <div class="card-container" style="height:auto">
+                    <div class="card" style="height:auto">
+                        <div class="front" style="height:auto">
+                            <div class="cover" style="overflow:initial;">
+                                <img src="{{ url_for('static', filename='image/cover.png')"/>
+                            </div>
+                            <div class="user" style="height : 30%;">
+                                <a href="image/homebg1.png">
+                                    <img class="img-circle" src="{{ url_for('static', filename=user.profile_pic)"/>
+                                </a>
+                            </div>
+                            <div class="content">
+                                <div class="main">
+                                    <h3 class="name"><kbd>{{user.name}}</kbd></h3>
+
+                                    <p class="text-center"><kbd>{{user.bio}}</kbd></p>
+                                </div>
+                            </div>
+                        </div> <!-- end front panel -->
+
+                    </div> <!-- end card -->
+                </div> <!-- end card-container -->
+            </div>
+            <div class="col-sm-8 center">
+                {{% for post in posts &}}
+                <a href="url_for('static', filename=post.image)" class="fancybox" data-fancybox-group="gallery"
+                   title={{post.title}}><img
+                        src="url_for('static', filename=post.image)"/></a>
+                {{% endfor %}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-action-btn" style="position: fixed; bottom: 5%; right: 5%;">
+    <ul>
+        <li><a class="btn-floating yellow darken-1" data-toggle="modal" data-target="#myModal1"><i
+                class="material-icons">format_quote</i></a></li>
+        <li><a class="btn-floating blue" data-toggle="modal" data-target="#myModal2"><i class="material-icons">attach_file</i></a>
+        </li>
+    </ul>
+    <a class="btn-floating btn-large red">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="row">
+                <form class="col-md-12">
+                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                    <div class="row">
+                        <div class="input-field col-md-11">
+                            <i class="material-icons prefix">bookmark</i>
+                            <input id="icon_prefix" type="text" class="validate">
+                            <label for="icon_prefix">Title</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col-md-12" style="margin: 2%; width: 96%">
+                    <div class="row">
+                        <div class="input-field col-md-12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Textarea</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">Post!
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content" style="text-align:center; width:100%">
+            <div class="container" style="text-align:center; width:100%">
+                <div class="panel panel-default" style="text-align:center; width:100%">
+
+                    <div class="panel-body" style="text-align:center; width:100%">
+
+                        <!-- Standar Form -->
+                        <h4>Select files from your computer</h4>
+                        <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <input type="file" name="files[]" id="js-upload-files" multiple>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
+                                    files
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Drop Zone -->
+                        <h4>Or drag and drop files below</h4>
+                        <div class="upload-drop-zone" id="drop-zone">
+                            Just drag and drop files here
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: 60%;">
+                                <span class="sr-only">60% Complete</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div> <!-- /container -->
+        </div>
+
+    </div>
+</div>
+
+<footer class="page-footer blue center-on-small-only" style="margin: 0px">
+    <div class="container-fluid">
+    </div>
+    <div class="footer-copyright text-center rgba-black-light">
+        <div class="container-fluid">© 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        </div>
+    </div>
+</footer>
+<!-- SCRIPTS -->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+
+<script type="text/javascript" src="{{url_for('static' , filename = 'js/jquery.fancybox.pack.js')}}"></script>
+
+<!-- Material Design Bootstrap -->
+<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
+
+<script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
+
+<script type="text/javascript">
+                    $(document).ready(function() {
+            		$('.fancybox').fancybox({
+                		padding : 0,
+		                openEffect  : 'elastic'
+            		});
+	        });
+
+
+
+
+</script>
+</body>
+</html>
