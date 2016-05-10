@@ -3,9 +3,9 @@
 <head>
     <title>GoSocial!</title>
 
-    <link href="{{url_for('static',file_name='css/bootstrap.css')}}" rel="stylesheet"/>
+    <link href="{{ url_for('static',filename='css/bootstrap.css') }}" rel="stylesheet"/>
     <!--<link href="css/rotating-card.css" rel="stylesheet"/>-->
-    <link rel="stylesheet" href="{{url_for('static',filename = 'css/jquery.fancybox.css')}}" type="text/css"
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/jquery.fancybox.css') }}" type="text/css"
           media="screen"/>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Material Design Icons -->
@@ -14,22 +14,20 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Material Design Bootstrap -->
-    <link href="{{ url_for(" static
-    ", filename="css/mdb.min.css") }}" rel="stylesheet">
+    <link href="{{ url_for("static", filename="css/mdb.min.css") }}" rel="stylesheet">
 
-    <link href="{{ url_for(" static
-    ", filename="css/main.css") }}" rel="stylesheet">
+    <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
     <style>
-        kbd{
-        background-color : white;
-        color : black;
+        kbd {
+            background-color: white;
+            color: black;
         }
 
         body {
-        margin-top: 60px;
-        font-size: 14px;
-        font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
-        background-color: #E5E9ED;
+            margin-top: 60px;
+            font-size: 14px;
+            font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
+            background-color: #E5E9ED;
         }
     </style>
 
@@ -48,7 +46,7 @@
             </a>
         </div>
         <div class="navbar-header">
-            <p class="navbar-brand">{{user.username}}</p>
+            <p class="navbar-brand">{{ user.username }}</p>
         </div>
         <div class="navbar-header">
             <a href="editprofile.html" class="navbar-brand">
@@ -67,24 +65,24 @@
 </nav>
 <div class="container" style="height:auto">
     <div class="row" style="height:auto">
-        <div class="col-sm-10 col-sm-offest-1" style="height:auto">
-            <div class="col-sm-4 center" style="height:auto">
+        <div class="col-sm-10 col-sm-offest-1" style="height:auto; width: 100%">
+            <div class="col-sm-3 center" style="height:auto;">
                 <div class="card-container" style="height:auto">
                     <div class="card" style="height:auto">
                         <div class="front" style="height:auto">
                             <div class="cover" style="overflow:initial;">
-                                <img src="{{ url_for('static', filename='image/cover.png')"/>
+                                <img src="{{ url_for('static', filename='image/cover.png') }}"/>
                             </div>
                             <div class="user" style="height : 30%;">
-                                <a href="image/homebg1.png">
-                                    <img class="img-circle" src="{{ url_for('static', filename=user.profile_pic)"/>
+                                <a href="{{ url_for('static', filename=user.profile_pic) }}">
+                                    <img class="img-circle" src="{{ url_for('static', filename=user.profile_pic) }}"/>
                                 </a>
                             </div>
                             <div class="content">
                                 <div class="main">
-                                    <h3 class="name"><kbd>{{user.name}}</kbd></h3>
+                                    <h3 class="name"><kbd>{{ user.name }}</kbd></h3>
 
-                                    <p class="text-center"><kbd>{{user.bio}}</kbd></p>
+                                    {#<p class="text-center"><kbd>{{ user.bio }}</kbd></p>#}
                                 </div>
                             </div>
                         </div> <!-- end front panel -->
@@ -92,13 +90,17 @@
                     </div> <!-- end card -->
                 </div> <!-- end card-container -->
             </div>
-            <div class="col-sm-8 center">
-                {{% for post in posts &}}
-                <a href="url_for('static', filename=post.image)" class="fancybox" data-fancybox-group="gallery"
-                   title={{post.title}}><img
-                        src="url_for('static', filename=post.image)" style="padding-bottom: 5px;"
-                        onmousedown="isKeyPressed(event,{{ post.id }},{{user.is_my_profile}})"/></a>
-                {{% endfor %}}
+
+            <div class="col-lg-12  center" style="height:auto;margin-top: 8px;">
+                {% for post in posts %}
+                    <a href="{{ url_for('static', filename=post.image if post.image else "media/def_post_image.jpg") }}"
+                       class="fancybox"
+                       data-fancybox-group="gallery"
+                       title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
+                            src="{{ url_for('static', filename=post.image if post.image else "media/def_post_image.jpg") }}"
+                            style="padding-bottom: 5px;height: 150px"
+                            onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -107,7 +109,8 @@
     <ul>
         <li><a class="btn-floating yellow darken-1" data-toggle="modal" data-target="#myModal1"><i
                 class="material-icons">format_quote</i></a></li>
-        <li><a class="btn-floating blue" data-toggle="modal" data-target="#myModal2"><i class="material-icons">attach_file</i></a>
+        <li><a class="btn-floating blue" data-toggle="modal" data-target="#myModal2"><i
+                class="material-icons">attach_file</i></a>
         </li>
     </ul>
     <a class="btn-floating btn-large red">
@@ -122,7 +125,8 @@
         <div class="modal-content">
             <div class="row">
                 <form class="col-md-12">
-                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal"
+                            style="margin: 1%">&times;</button>
                     <div class="row">
                         <div class="input-field col-md-11">
                             <i class="material-icons prefix">bookmark</i>
@@ -143,7 +147,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">Post!
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        style="text-align: center; ;">Post!
                 </button>
             </div>
         </div>
@@ -167,7 +172,8 @@
                                 <div class="form-group">
                                     <input type="file" name="files[]" id="js-upload-files" multiple>
                                 </div>
-                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
+                                <button type="submit" class="btn btn-sm btn-primary"
+                                        id="js-upload-submit">Upload
                                     files
                                 </button>
                             </div>
@@ -181,7 +187,8 @@
 
                         <!-- Progress Bar -->
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                                 aria-valuemin="0"
                                  aria-valuemax="100" style="width: 60%;">
                                 <span class="sr-only">60% Complete</span>
                             </div>
@@ -200,45 +207,45 @@
     <div class="container-fluid">
     </div>
     <div class="footer-copyright text-center rgba-black-light">
-        <div class="container-fluid">© 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
+        <div class="container-fluid">© 2016 Copyright: <a href="http://www.gohappyco.com">
+            GoHappyCo.com </a>
         </div>
     </div>
 </footer>
 <!-- SCRIPTS -->
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
 
-<script type="text/javascript" src="{{url_for('static' , filename = 'js/jquery.fancybox.pack.js')}}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static' , filename = 'js/jquery.fancybox.pack.js') }}"></script>
 
 <!-- Material Design Bootstrap -->
-<script type="text/javascript" src="{{ url_for(" static
-", filename="js/mdb.min.js") }}"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="js/mdb.min.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
 <script type="text/javascript">
-                    $(document).ready(function() {
-            		$('.fancybox').fancybox({
-                		padding : 0,
-		                openEffect  : 'elastic'
-            		});
-	        });
-            function isKeyPressed(event , postId , isMyProfile){
-                if (event.ctrlKey){
-                    window.location.href = "/posts/"+postId.toString();
-                }
-                else if(event.shiftKey){
-                    if(isMyProfile){
-                        window.location.href = "posts/"+postId.toString()+"/edit";
-                    }
-                }
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+            padding: 0,
+            openEffect: 'elastic'
+        });
+    });
+    function isKeyPressed(event, postId, isMyProfile) {
+        console.log("kirrrrr");
+        if (event.ctrlKey) {
+            window.location.href = "/posts/" + postId.toString();
+        }
+        else if (event.shiftKey) {
+            if (isMyProfile) {
+                window.location.href = "/posts/" + postId.toString() + "/edit";
             }
-
-
-
+        }
+    }
 
 
 </script>

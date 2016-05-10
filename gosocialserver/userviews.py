@@ -91,15 +91,13 @@ def profile(username):
     if len(username) == 0:
         abort(404)
 
-    user = Select().star().From(User.table_name).filter(column("username").equal(username)).to_query().with_model(
-        User).first()
+    user = Select().star().From(User.table_name).filter(column("username").equal(username)).to_query().with_model(User).first()
     if not user:
         abort(404)
 
-    posts = Select().star().From(Post.table_name).filter(column("post_id").equal(user.id)).to_query().with_model(
-        Post).first()
+    posts = Select().star().From(Post.table_name).filter(column("user_id").equal(user.id)).to_query().with_model(Post).all()
 
-    return render_template("profile", user=user, posts=posts, is_my_profile=(g.user and g.user.id == user.id))
+    return render_template("profile.html", user=user, posts=posts, is_my_profile=(g.user and g.user.id == user.id))
 
 
 @app.route("/users/<string:username>/edit", methods=["GET", "POST"])
