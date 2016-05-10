@@ -5,7 +5,7 @@ import random
 from flask import render_template, g, request, current_app, url_for, make_response, abort, redirect
 
 import gosocialserver.config as config
-from gosocialserver.models import Post, Like, Dislike
+from gosocialserver.models import Post, Like, Dislike, Comment
 from gosocialserver.server import app
 from gosocialserver.utils import login_required
 
@@ -93,6 +93,29 @@ def edit_post(post_id):
         return redirect(url_for('show_post', post_id=post.id))
 
     return render_template('addpost.html', post=post)
+
+
+@app.route("/posts/<int:post_id>/comments/add", methods=['POST'])
+@app.route("/posts/<int:post_id>/comments/add/<int:parent_id>", methods=['POST'])
+@login_required
+def add_comment(post_id, parent_id=None):
+    comment_post = post = Post.get_by_id(post_id)
+    if not post:
+        abort(404)
+
+    parent = None
+    if parent_id:
+        parent = Comment.get_by_id(parent_id)
+        if not parent:
+            abort(404)
+        comment_post = None
+
+    cm_body = request.form['body']
+    if len(cm_body) < 4:
+        abort(400)
+
+    Comment.new_comment(cm_body, parent, comment_post, g.user)
+    return render_comments(post.comments)
 
 
 @app.route('/ckupload/', methods=['POST', 'OPTIONS'])

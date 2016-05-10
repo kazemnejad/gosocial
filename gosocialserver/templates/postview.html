@@ -98,19 +98,19 @@
             </div><!-- /col-sm-12 -->
         </div><!-- /row -->
 
-        {% autoescape false %}
-        {{ comments }}
-        {% endautoescape %}
+        <div id="commentsList">
+            {% autoescape false %}
+            {{ comments }}
+            {% endautoescape %}
+        </div>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-area no-padding blank">
                     <div class="status-upload">
-                        <form>
-                            <textarea placeholder="Leave Your Comment..."></textarea>
-                            <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share
-                            </button>
-                        </form>
+                        <textarea id="mainCommentBody" placeholder="Leave Your Comment..."></textarea>
+                        <button onclick="mainComment()" class="btn btn-success green"><i class="fa fa-share"></i>Share
+                        </button>
                     </div>
                 </div>
             </div>
@@ -122,25 +122,21 @@
 
 </div><!-- /container -->
 
-<div class="modal fade" id="myModal1" role="dialog">
+<div class="modal fade" id="commentModal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="row">
-                <form class="col-md-12">
-                    <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
-                </form>
+                <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="widget-area no-padding blank">
                         <div class="status-upload">
-                            <form>
-                                <textarea placeholder="Leave Your Comment..."></textarea>
-                                <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Reply
-                                </button>
-                            </form>
+                            <textarea id="commentBody" placeholder="Leave Your Comment..."></textarea>
+                            <button class="btn btn-success green" id="sendComment"><i class="fa fa-share"></i> Reply
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -175,6 +171,43 @@
 <script type="text/javascript" src="{{ url_for("static", filename="js/ui.js") }}"></script>
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
+
+<script>
+    function mainComment() {
+        var postId = {{ post.id }};
+        textArea = $("#mainCommentBody");
+        cmBody = textArea.val();
+        sendComment(postId, null, cmBody, showNewComments);
+        textArea.val("");
+    }
+
+    function openCommentModal(parentId) {
+        var postId = {{ post.id }};
+        $("#commentModal").modal("show");
+        $("#sendComment").unbind().click(function () {
+            cmBody = $("#commentBody").val();
+            sendComment(postId, parentId, cmBody, showNewComments);
+            $("#commentModal").modal("hide");
+        })
+    }
+
+    function showNewComments(htmlData) {
+        document.getElementById("commentsList").innerHTML = htmlData
+    }
+
+    function sendComment(postId, parentId, body, callback) {
+        var parentUrl = (parentId != null) ? '/' + parentId.toString() : '';
+        var url = '/posts/' + postId.toString() + '/comments/add' + parentUrl;
+        console.log(parentUrl);
+        console.log(url);
+        $.post(url, {body: body.toString()},
+                function (data, status, xhr) {
+                    if (xhr.status == 200) {
+                        callback(data);
+                    }
+                });
+    }
+</script>
 
 </body>
 

@@ -24,3 +24,14 @@ function disLike(postId, disLikeTagId, likeTagId) {
             document.getElementById(likeTagId).innerHTML = splitData[1];
         })
 }
+
+
+function sendComment(postId, parentId, body, callback) {
+    var url = '/posts/' + postId.toString() + '/comments/add' + (parentId != null) ? '/' + parentId.toString() : '';
+    $.post(url, {body: body.toString()},
+        function (data, status, xhr) {
+            if (xhr.status == 200) {
+                callback(data);
+            }
+        });
+}

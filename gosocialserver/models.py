@@ -336,6 +336,10 @@ class Comment(Model):
         self.saved_data[3] = value
 
     @property
+    def parent_id(self):
+        return self.data[3]
+
+    @property
     def post(self):
         u = self._get_property(4)
 
@@ -348,6 +352,10 @@ class Comment(Model):
     @post.setter
     def post(self, value):
         self.saved_data[4] = value
+
+    @property
+    def post_id(self):
+        return self.data[4]
 
     @property
     def author(self):
