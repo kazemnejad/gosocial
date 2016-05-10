@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,6 @@
             background-color: white;
             color: black;
         }
-
         body {
             margin-top: 60px;
             font-size: 14px;
@@ -41,7 +41,7 @@
 <nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand " href="home.html">
+            <a class="navbar-brand " href="/">
                 <span class="glyphicon glyphicon-home"></span>
             </a>
         </div>
@@ -49,7 +49,7 @@
             <p class="navbar-brand">{{ user.username }}</p>
         </div>
         <div class="navbar-header">
-            <a href="editprofile.html" class="navbar-brand">
+            <a href="/users/{{user.username}}/edit" class="navbar-brand">
                 edit profile
             </a>
         </div>
@@ -267,15 +267,7 @@
     </div>
 </div>
 
-<footer class="page-footer blue center-on-small-only" style="margin: 0px">
-    <div class="container-fluid">
-    </div>
-    <div class="footer-copyright text-center rgba-black-light">
-        <div class="container-fluid">© 2016 Copyright: <a href="http://www.gohappyco.com">
-            GoHappyCo.com </a>
-        </div>
-    </div>
-</footer>
+{% include 'footer.html' %}
 <!-- SCRIPTS -->
 
 <script type="text/javascript"
@@ -310,8 +302,6 @@
             }
         }
     }
-
-
 </script>
 </body>
 </html>

@@ -66,7 +66,10 @@ def edit_post(post_id):
     if not post:
         abort(404)
 
-    if post.author.id != g.user.id:
+    print(post.author.id)
+    print(g.user.id)
+
+    if int(post.author.id) != int(g.user.id):
         abort(403)
 
     if request.method == 'POST':
@@ -79,8 +82,10 @@ def edit_post(post_id):
             if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
+                    print("image2")
                     abort(403)
             else:
+                print("image")
                 abort(403)
 
         post.title = title

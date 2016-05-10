@@ -48,17 +48,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand waves-effect waves-light" href="#">@{{ post.author_username }}</a>
             </div>
-            <div class="btn-group navbar-right">
-                <button type="button" class="btn-flat btn-link dropdown-toggle"
-                        style="color: #fff; text-decoration: none" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Option <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Delete</a></li>
-                </ul>
-            </div>
+
         </nav>
 
 
@@ -66,7 +56,7 @@
             <div class="card-image" style="margin-top: -20px;">
                 <div class="view overlay hm-white-slight z-depth-1">
                     <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive" alt="">
-                    <a href="postview.html">
+                    <a href="/posts/{{post.id}}">
                         <div class="mask waves-effect"></div>
                     </a>
                 </div>
@@ -192,15 +182,7 @@
         </div>
     </div>
 
-    <footer class="page-footer blue center-on-small-only" style="margin: 0px">
-        <div class="container-fluid">
-        </div>
-        <div class="footer-copyright text-center rgba-black-light">
-            <div class="container-fluid">
-                © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
-            </div>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 
     <!-- SCRIPTS -->
 
