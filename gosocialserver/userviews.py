@@ -163,4 +163,4 @@ def make_square(address):
     right = (width + new_width) / 2
     bottom = (height + new_height) / 2
 
-    im.crop((left, top, right, bottom)).save(full_path)
+    im.crop((int(left), int(top), int(right), int(bottom))).save(full_path)
