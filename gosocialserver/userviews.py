@@ -83,7 +83,7 @@ def logout():
     session.pop('user_id', None)
     g.user = None
     flash('You were logged out')
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.route("/users/<string:username>", methods=['GET'])
