@@ -29,6 +29,7 @@
 <div class="space-30"></div>
 <div class="space-30"></div>
 <div class="space-30"></div>
+<div class="space-30"></div>
 
 {% include 'navbar.html' %}
 
@@ -48,17 +49,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand waves-effect waves-light" href="#">@{{ post.author_username }}</a>
             </div>
-            <div class="btn-group navbar-right">
-                <button type="button" class="btn-flat btn-link dropdown-toggle"
-                        style="color: #fff; text-decoration: none" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Option <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Delete</a></li>
-                </ul>
-            </div>
+
         </nav>
 
 
@@ -66,7 +57,7 @@
             <div class="card-image" style="margin-top: -20px;">
                 <div class="view overlay hm-white-slight z-depth-1">
                     <img src="{{ url_for("static", filename=post.image) }}" class="img-responsive" alt="">
-                    <a href="postview.html">
+                    <a href="/posts/{{post.id}}">
                         <div class="mask waves-effect"></div>
                     </a>
                 </div>
@@ -127,15 +118,17 @@
                         </div>
                     </form>
                 </div>
-                <div class="row">
-                    <form class="col-md-12" style="margin: 2%; width: 96%">
-                        <div class="row">
-                            <div class="input-field col-md-12">
-                                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                                <label for="textarea1">Textarea</label>
-                            </div>
-                        </div>
-                    </form>
+                <div class="row" style="margin: 2%; width: 96%">
+                    <div class="input-field col-md-12">
+                        <textarea id="editor-body" name="editor-body" class="materialize-textarea">
+                            {{ post.body if post else "" }}
+                        </textarea>
+                        <script>
+                            CKEDITOR.replace('editor-body', {
+                                filebrowserImageUploadUrl: '/ckupload/'
+                            });
+                        </script>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">
@@ -156,31 +149,27 @@
 
                         <div class="panel-body" style="text-align:center; width:100%">
 
-                            <!-- Standar Form -->
-                            <h4>Select files from your computer</h4>
-                            <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
-                                <div class="form-inline">
-                                    <div class="form-group">
-                                        <input type="file" name="files[]" id="js-upload-files" multiple>
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload
-                                        files
-                                    </button>
-                                </div>
-                            </form>
+                            <div class="col-md-12" style="margin: 2%; width: 96%">
+                                <!-- image-preview-filename input [CUT FROM HERE]-->
+                                <div class="input-group image-preview">
+                                    <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                    <!-- don't give a name === doesn't send on POST/GET -->
+                                            <span class="input-group-btn">
+                                                <!-- image-preview-clear button -->
+                                                <button type="button" class="btn btn-link wave-effect wave-light image-preview-clear"
+                                                        style="display:none; text-decoration: none">
+                                                    <span class="glyphicon glyphicon-remove"></span> Clear
+                                                </button>
 
-                            <!-- Drop Zone -->
-                            <h4>Or drag and drop files below</h4>
-                            <div class="upload-drop-zone" id="drop-zone">
-                                Just drag and drop files here
-                            </div>
-
-                            <!-- Progress Bar -->
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                     aria-valuemax="100" style="width: 60%;">
-                                    <span class="sr-only">60% Complete</span>
-                                </div>
+                                                <!-- image-preview-input -->
+                                                <div class="btn btn-link wave-effect wave-light image-preview-input"
+                                                     style=" text-decoration: none">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <span class="image-preview-input-title">Browse</span>
+                                                    <input type="file" accept="image/png, image/jpeg ,image/gif" name="image"/>
+                                                </div>
+                                            </span>
+                                </div><!-- /input-group image-preview [TO HERE]-->
                             </div>
 
 
@@ -192,15 +181,7 @@
         </div>
     </div>
 
-    <footer class="page-footer blue center-on-small-only" style="margin: 0px">
-        <div class="container-fluid">
-        </div>
-        <div class="footer-copyright text-center rgba-black-light">
-            <div class="container-fluid">
-                © 2016 Copyright: <a href="http://www.gohappyco.com"> GoHappyCo.com </a>
-            </div>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 
     <!-- SCRIPTS -->
 

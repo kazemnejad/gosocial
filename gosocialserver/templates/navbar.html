@@ -1,7 +1,7 @@
 <nav class="navbar navbar-fixed-top z-depth-1" role="navigation" style="background-color: #3F729B !important;">
 
     <div class="navbar-brand" style="padding-right: 0">
-        <a class="navbar-brand navbar-left" style="margin: 0px; padding: 2px">
+        <a class="navbar-brand navbar-left" href="{{"/users/"+user.username|string if user else "/auth/login"}}" style="margin: 0px; padding: 2px">
             <img src="{{ url_for("static", filename=user.profile_pic if user else "media/def_profile_pic.jpg") }}"
                  class="profile-image img-circle"
                  style="width: auto; height: 100% ; margin: 2px; padding: 2px">
