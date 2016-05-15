@@ -88,10 +88,12 @@
                 <span id="dislike-btn-{{ post.id }}">{{ post.dislike_count }}</span>
             </a>
 
-            <button type="button" class="btn-flat btn-link"
-                    style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
-                    Read More
-            </button>
+            <a href="/posts/{{ post.id }}">
+                            <button type="button" class="btn-flat btn-link"
+                                    style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
+                                Read More
+                            </button>
+                        </a>
         </div>
         <!--/.Buttons-->
     </div>
@@ -123,22 +125,24 @@
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content row">
+            <form class="col-md-12" id="add-post" method="post" action="/posts/add"
+          enctype="multipart/form-data">
             <div class="row">
-                <form class="col-md-12">
+
                     <button type="button" class="close" data-dismiss="modal" style="margin: 1%">&times;</button>
                     <div class="row">
                         <div class="input-field col-md-11">
                             <i class="material-icons prefix">bookmark</i>
-                            <input id="icon_prefix" type="text" class="validate">
+                            <input id="icon_prefix" type="text" class="validate" name="title">
                             <label for="icon_prefix">Title</label>
                         </div>
                     </div>
-                </form>
+
             </div>
             <div class="row" style="margin: 2%; width: 96%">
                 <div class="input-field col-md-12">
-                        <textarea id="editor-body" name="editor-body" class="materialize-textarea">
+                        <textarea id="editor-body" name="editor-body"  class="materialize-textarea">
                             {{ post.body if post else "" }}
                         </textarea>
                     <script>
@@ -149,10 +153,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align: center; ;">
+                <button type="submit" class="btn btn-primary" form="add-post"  style="text-align: center; ;">
                     Post!
                 </button>
             </div>
+            </form>
         </div>
 
     </div>

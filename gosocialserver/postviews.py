@@ -42,7 +42,7 @@ def add_post():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['editor-body']
-        image_file = request.files['image']
+        image_file = request.files['image'] if 'image' in request.files else None
 
         address = None
         if image_file:
@@ -92,7 +92,7 @@ def edit_post(post_id):
 
         return redirect(url_for('show_post', post_id=post.id))
 
-    return render_template('addpost.html', post=post)
+    return render_template('addpost.html', post=post, user=g.user)
 
 
 @app.route("/posts/<int:post_id>/delete", methods=['GET'])
