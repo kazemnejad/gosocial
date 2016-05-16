@@ -21,6 +21,9 @@
 
     <link href="{{ url_for("static", filename="css/main.css") }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/jquery.fancybox.css') }}" type="text/css"
+          media="screen"/>
+
 
 </head>
 
@@ -47,10 +50,17 @@
 
                     <span class="meta"><kbd>Posted by <a
                             href="/users/{{post.author.username}}">@{{ post.author.username }}</a> on {{ post.created_on }}</kbd></span>
+
                 </div>
             </div>
         </div>
     </div>
+    <a href='{{ url_for("static", filename=post.image) }}' class="fancybox" data-fancybox-group="gallery">
+        <button type="button" class="btn-flat btn-link"
+                style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
+            <kbd>View</kbd>
+        </button>
+    </a>
 </header>
 
 <div class="space-30"></div>
@@ -167,6 +177,8 @@
 
 <script type="text/javascript" src="{{ url_for("static", filename="js/network.js") }}"></script>
 
+<script type="text/javascript" src="{{ url_for('static' , filename = 'js/jquery.fancybox.pack.js') }}"></script>
+
 <script>
     function mainComment() {
         var postId = {{ post.id }};
@@ -202,6 +214,12 @@
                     }
                 });
     }
+    $(document).ready(function () {
+        $('.fancybox').fancybox({
+            padding: 0,
+            openEffect: 'elastic'
+        });
+    });
 </script>
 
 </body>
