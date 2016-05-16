@@ -98,11 +98,12 @@
 
             <div class="col-md-8 col-sm-5" style="height:auto;margin-top: 8px;float: right;">
                 {% for post in posts %}
-                    <a href="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                    <script type="text/javascript">console.log("{{post.image}}")</script>
+                    <a href="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
                        class="fancybox"
                        data-fancybox-group="gallery"
                        title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
-                            src="{{ url_for('static', filename=post.image if post.image else " media/def_post_image.jpg") }}"
+                            src="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
                             style="padding-bottom: 5px;height: 150px"
                             onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
                 {% endfor %}

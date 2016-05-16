@@ -24,16 +24,18 @@ def show_post(post_id):
 
     like_count = Like.get_count_for(post)
     dislike_count = Dislike.get_count_for(post)
-
+    image_none = False
     if not post.image:
         post.image = config.DEFAULT_POST_IMAGE
+        image_none = True
 
     return render_template("postview.html",
                            post=post,
                            like_count=like_count,
                            dislike_count=dislike_count,
                            comments=render_comments(post.comments),
-                           user=g.user)
+                           user=g.user,
+                           image_none=image_none)
 
 
 @app.route("/posts/add", methods=['GET', 'POST'])

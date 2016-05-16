@@ -55,12 +55,14 @@
             </div>
         </div>
     </div>
+{% if not image_none %}
     <a href='{{ url_for("static", filename=post.image) }}' class="fancybox" data-fancybox-group="gallery">
         <button type="button" class="btn-flat btn-link"
                 style="color: #404040; text-decoration: none;position: absolute; right: 0px ;left: auto;">
             <kbd>View</kbd>
         </button>
     </a>
+{% endif %}
 </header>
 
 <div class="space-30"></div>
