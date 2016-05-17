@@ -43,7 +43,7 @@ def show_post(post_id):
 def add_post():
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['editor-body']
+        body = request.form['editor-body'] if 'editor-body' in request.form else None
         image_file = request.files['image'] if 'image' in request.files else None
 
         address = None
@@ -73,8 +73,8 @@ def edit_post(post_id):
 
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['editor-body']
-        image_file = request.files['image']
+        body = request.form['editor-body'] if 'editor-body' in request.form else None
+        image_file = request.files['image'] if 'image' in request.files else None
 
         address = None
         if image_file:
@@ -86,7 +86,7 @@ def edit_post(post_id):
                 abort(403)
 
         post.title = title
-        post.body = body
+        post.body = body if body and len(body) > 0 else None
         if address:
             post.image = address
 

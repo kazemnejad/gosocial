@@ -121,6 +121,7 @@ def edit_profile(username):
         first_name = request.form['fname']
         last_name = request.form['lname']
         password = request.form['password'] if 'password' in request.form else None
+        bio = request.form['bio'] if 'bio' in request.form else None
         profile_pic = request.files['image']
 
         address = None
@@ -144,6 +145,9 @@ def edit_profile(username):
 
         if password and len(password):
             user.password = User.generate_password_hash(password)
+
+        if bio and len(bio) > 0:
+            user.bio = bio
 
         user.save_or_update()
         return redirect(url_for('profile', username=username))

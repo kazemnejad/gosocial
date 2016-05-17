@@ -61,6 +61,14 @@ class User(Model):
         self.saved_data[6] = value
 
     @property
+    def bio(self):
+        return self._get_property(7)
+
+    @bio.setter
+    def bio(self, value):
+        self.saved_data[7] = value
+
+    @property
     def name(self):
         return self.first_name + " " + self.last_name
 
@@ -71,7 +79,8 @@ class User(Model):
                 "password": self.password,
                 "first_name": self.first_name,
                 "last_name": self.last_name,
-                "profile_pic": self.profile_pic}
+                "profile_pic": self.profile_pic,
+                "bio": self.bio}
 
     def save(self):
         return self._save(self.table_name)
@@ -278,12 +287,11 @@ class Post(Model):
     @staticmethod
     def new_post(title, body, image_url, user):
         assert title
-        assert body
         assert isinstance(user, User)
 
         post = Post()
         post.title = title
-        post.body = body
+        post.body = body if body and len(body) > 0 else None
         post.image = image_url
         post.author = user
         post.created_on = None
