@@ -45,26 +45,28 @@
             <a class="navbar-brand " href="/">
                 <span class="glyphicon glyphicon-home"></span>
             </a>
-        </div>
-        <div class="navbar-header">
-            <p class="navbar-brand">{{ user.username }}</p>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
         {% if is_my_profile %}
-            <div class="navbar-header">
-                <a href="/users/{{ user.username }}/edit" class="navbar-brand">
-                    edit profile
-                </a>
-            </div>
-
-            <div class="navbar-header">
-                <a href="/auth/logout" class="navbar-brand">
-                    logout
-                </a>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a class="navbar-brand">{{ user.username }}</a></li>
+                  <li><a href="/users/{{ user.username }}/edit" class="navbar-brand">Edit Profile</a></li>
+                  <li><a href="/auth/logout" class="navbar-brand">Logout</a></li>
+                </ul>
             </div>
         {% endif %}
-        <a href="/"><img class="navbar-right" src="{{ url_for("static", filename="image/logo.png") }}"
-                         style="float: right; width: 200px; height: auto;
-            margin-top: -10px; margin-right: 20px"></a>
+        {% if not is_my_profile %}
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a class="navbar-brand">{{ user.username }}</a></li>
+                </ul>
+            </div>
+        {% endif %}
     </div>
 </nav>
 
