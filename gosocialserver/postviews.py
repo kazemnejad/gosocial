@@ -143,7 +143,7 @@ def add_comment(post_id, parent_id=None):
         comment_post = None
 
     cm_body = request.form['body']
-    if len(cm_body) < 4:
+    if len(cm_body) < 1:
         abort(400)
 
     Comment.new_comment(cm_body, parent, comment_post, g.user)

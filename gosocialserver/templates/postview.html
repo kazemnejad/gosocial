@@ -118,8 +118,11 @@
                 <div class="widget-area no-padding blank">
                     <div class="status-upload">
                         <textarea id="mainCommentBody" placeholder="Leave Your Comment..."></textarea>
-                        <button onclick="mainComment()" class="btn btn-success green"><i class="fa fa-share"></i>Share
-                        </button>
+                        {% if user %}
+                            <button onclick="mainComment()" class="btn btn-success green"><i class="fa fa-share"></i>Share</button>
+                        {% else %}
+                            <a href="/auth/login" ><button class="btn btn-success green"><i class="fa fa-share"></i>Share</button></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -144,8 +147,11 @@
                     <div class="widget-area no-padding blank">
                         <div class="status-upload">
                             <textarea id="commentBody" placeholder="Leave Your Comment..."></textarea>
-                            <button class="btn btn-success green" id="sendComment"><i class="fa fa-share"></i> Reply
-                            </button>
+                            {% if user %}
+                                <button class="btn btn-success green" id="sendComment"><i class="fa fa-share"></i> Reply</button>
+                            {% else %}
+                                <a href="/auth/login"><button class="btn btn-success green"><i class="fa fa-share"></i> Reply</button></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -196,9 +202,11 @@
         var postId = {{ post.id }};
         $("#commentModal").modal("show");
         $("#sendComment").unbind().click(function () {
-            cmBody = $("#commentBody").val();
-            sendComment(postId, parentId, cmBody, showNewComments);
+            cmBody = $("#commentBody");
+            cmBodyText = cmBody.val();
+            sendComment(postId, parentId, cmBodyText, showNewComments);
             $("#commentModal").modal("hide");
+            cmBody.val("")
         })
     }
 
