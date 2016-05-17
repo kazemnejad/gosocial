@@ -41,13 +41,14 @@ def show_post(post_id):
 @app.route("/posts/add", methods=['GET', 'POST'])
 @login_required
 def add_post():
+    errors = []
     if request.method == 'POST':
-        title = request.form['title']
+        title = request.form['title'] if 'title' in request.form else None
         body = request.form['editor-body'] if 'editor-body' in request.form else None
         image_file = request.files['image'] if 'image' in request.files else None
 
         address = None
-        if image_file:
+        if image_file and title and len(title) > 0:
             if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
@@ -55,11 +56,17 @@ def add_post():
             else:
                 abort(403)
 
-        print(title, "kir")
-        post = Post.new_post(title, body, address, g.user)
-        return redirect(url_for('show_post', post_id=post.id))
+        if not title or len(title) == 0:
+            errors.append("You should provide Title")
 
-    return render_template('addpost.html', user=g.user)
+        if not body and not image_file:
+            errors.append("You should provide at least one picture or body")
+
+        if len(errors) == 0:
+            post = Post.new_post(title, body, address, g.user)
+            return redirect(url_for('show_post', post_id=post.id))
+
+    return render_template('addpost.html', user=g.user, errors=errors)
 
 
 @app.route("/posts/<int:post_id>/edit", methods=['GET', 'POST'])
@@ -72,13 +79,14 @@ def edit_post(post_id):
     if post.author.id != g.user.id:
         abort(403)
 
+    errors = []
     if request.method == 'POST':
-        title = request.form['title']
+        title = request.form['title'] if 'title' in request.form else None
         body = request.form['editor-body'] if 'editor-body' in request.form else None
         image_file = request.files['image'] if 'image' in request.files else None
 
         address = None
-        if image_file:
+        if image_file and title and len(title) > 0:
             if allowed_file(image_file.filename):
                 address, error = save_file(image_file, os.path.join("media", "upload"))
                 if address == '' or error != '':
@@ -86,16 +94,23 @@ def edit_post(post_id):
             else:
                 abort(403)
 
-        post.title = title
-        post.body = body if body and len(body) > 0 else None
-        if address:
-            post.image = address
+        if not title or len(title) == 0:
+            errors.append("You should provide Title")
 
-        post.save_or_update()
+        if not body and not image_file:
+            errors.append("You should provide at least one picture or body")
 
-        return redirect(url_for('show_post', post_id=post.id))
+        if len(errors) == 0:
+            post.title = title
+            post.body = body if body and len(body) > 0 else None
+            if address:
+                post.image = address
 
-    return render_template('addpost.html', post=post, user=g.user)
+            post.save_or_update()
+
+            return redirect(url_for('show_post', post_id=post.id))
+
+    return render_template('addpost.html', post=post, user=g.user, errors=errors)
 
 
 @app.route("/posts/<int:post_id>/delete", methods=['GET'])
