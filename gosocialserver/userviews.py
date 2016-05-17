@@ -33,19 +33,22 @@ def login():
 
     error = None
     if request.method == 'POST':
-        username = request.form['uname']
-        password = request.form['pass']
+        username = request.form['uname'] if 'uname' in request.form else None
+        password = request.form['pass'] if 'pass' in request.form else None
 
-        user = User.check_user(username, password)
-        if not user:
-            error = "Invalid credentials"
+        if not username or not password:
+            error = "Please provide needed fields."
         else:
-            session['user_id'] = user.id
-            g.user = user
-            flash("You were successfully logged in")
-            return redirect(url_for("index"))
+            user = User.check_user(username, password)
+            if not user:
+                error = "Invalid credentials"
+            else:
+                session['user_id'] = user.id
+                g.user = user
+                flash("You were successfully logged in")
+                return redirect(url_for("index"))
 
-    return render_template("loginpage.html", errors=[error] if error else [])
+    return render_template("loginpage.html", login_errors=[error] if error else [])
 
 
 @app.route("/auth/register", methods=['GET', 'POST'])
@@ -55,27 +58,29 @@ def register():
 
     error = None
     if request.method == 'POST':
-        username = escape(request.form['unname'])
-        email = request.form['email']
-        password = request.form['pass']
-        first_name = request.form['fname']
-        last_name = request.form['lname']
+        username = escape(request.form['unname']) if 'unname' in request.form else None
+        email = request.form['email'] if 'email' in request.form else None
+        password = request.form['pass'] if 'pass' in request.form else None
+        first_name = request.form['fname'] if 'fname' in request.form else None
+        last_name = request.form['lname'] if 'lname' in request.form else None
 
-        try:
-            user = User.new_user(username, email, password, first_name, last_name)
-            if not user:
-                error = "Unable to register1!"
-            else:
-                print(user.id)
-                session['user_id'] = user.id
-                g.user = user
-                flash("You have successfully signed up!")
-                return redirect(url_for("index"))
-        except AuthExceptions.UserExistException:
-            error = "Username or email exists!, try another one!"
+        if not username or not email or not password or not first_name or not last_name:
+            error = "Please provide needed fields"
+        else:
+            try:
+                user = User.new_user(username, email, password, first_name, last_name)
+                if not user:
+                    error = "Unable to register1!"
+                else:
+                    session['user_id'] = user.id
+                    g.user = user
+                    flash("You have successfully signed up!")
+                    return redirect(url_for("index"))
 
-    print(error)
-    return render_template("loginpage.html", errors=[error] if error else [])
+            except AuthExceptions.UserExistException:
+                error = "Username or email exists! try another one!"
+
+    return render_template("loginpage.html", register_errors=[error] if error else [])
 
 
 @app.route("/auth/logout", methods=['GET'])

@@ -40,6 +40,17 @@
 <div class="col-md-8" style="background-color: #fff; float: none; margin: 0 auto; padding: 2%">
     <form id="add-post" method="post" action="{{ "/posts/%s/edit" % post.id if post else "/posts/add" }}"
           enctype="multipart/form-data">
+
+        {% if errors and errors|length > 0 %}
+            <div class="row">
+                {% for error in errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="row">
                 <div class="input-field col-md-12" style="margin: 2%; width: 96%">

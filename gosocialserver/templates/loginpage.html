@@ -29,7 +29,8 @@
 <div class="space-30"></div>
 <div class="space-30"></div>
 <!-- Sign Up Form-->
-<div class="row-center"><img src="{{ url_for("static", filename="image/logo.png") }}" style="margin-left: 35%;margin-right: 35%;width: 30%;margin-bottom: 5%">
+<div class="row-center"><img src="{{ url_for("static", filename="image/logo.png") }}"
+                             style="margin-left: 35%;margin-right: 35%;width: 30%;margin-bottom: 5%">
 </div>
 <div class="collection z-depth-2"
      style="max-width: 40%; left: 30%; right: 30%; background-color:#f5f5f5; text-color:#FFFFFF">
@@ -52,6 +53,16 @@
 
     <div class="row-center" id="signupbox">
         <form class="col-md-12" id="register-form" style="display:block" method="post" action="/auth/register">
+            {% if register_errors and register_errors|length > 0 %}
+                <div class="row">
+                    {% for error in register_errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="row">
                 <div class="input-field col-md-6">
                     <i class="material-icons prefix">account_circle</i>
@@ -97,6 +108,16 @@
         </form>
 
         <form class="col-md-12" id="login-form" style="display:none" method="post" action="/auth/login">
+
+            {% if login_errors and login_errors|length > 0 %}
+                <div class="row">
+                    {% for error in login_errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <div class="row">
                 <div class="input-field col-md-12">
