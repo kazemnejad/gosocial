@@ -55,6 +55,7 @@ def add_post():
             else:
                 abort(403)
 
+        print(title, "kir")
         post = Post.new_post(title, body, address, g.user)
         return redirect(url_for('show_post', post_id=post.id))
 

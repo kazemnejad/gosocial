@@ -175,7 +175,7 @@ class Orderable(ABC):
         self.order = ""
         self.is_order_written = False
 
-    def by(self, field):
+    def order_by(self, field):
         if not self.is_order_written:
             self.order += "order by"
             self.is_order_written = True

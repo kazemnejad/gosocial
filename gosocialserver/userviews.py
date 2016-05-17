@@ -97,7 +97,8 @@ def profile(username):
         abort(404)
 
     posts = [post for post in
-             Select().star().From(Post.table_name).filter(column("user_id").equal(user.id)).to_query().with_model(
+             Select().star().From(Post.table_name).filter(column("user_id").equal(user.id)).order_by(
+                 "id").desc().to_query().with_model(
                  Post).all()]
 
     return render_template("profile.html", user=user, posts=posts, is_my_profile=(g.user and g.user.id == user.id))
