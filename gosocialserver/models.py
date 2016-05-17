@@ -8,7 +8,7 @@ from gosocialserver.orm import Model, Select, column, Query
 class User(Model):
     table_name = "users"
 
-    def __init__(self, data=tuple):
+    def __init__(self, data=tuple()):
         super().__init__()
         self.data = data
 
