@@ -55,8 +55,8 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li><a class="navbar-brand">{{ user.username }}</a></li>
-                  <li><a href="/users/{{ user.username }}/edit" class="navbar-brand">Edit Profile</a></li>
-                  <li><a href="/auth/logout" class="navbar-brand">Logout</a></li>
+                    <li><a href="/users/{{ user.username }}/edit" class="navbar-brand">Edit Profile</a></li>
+                    <li><a href="/auth/logout" class="navbar-brand">Logout</a></li>
                 </ul>
             </div>
         {% endif %}
@@ -100,14 +100,16 @@
 
             <div class="col-md-8 col-sm-5" style="height:auto;margin-top: 8px;float: right;">
                 {% for post in posts %}
-                    <script type="text/javascript">console.log("{{post.image}}")</script>
-                    <a href="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
-                       class="fancybox"
-                       data-fancybox-group="gallery"
-                       title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
-                            src="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
-                            style="padding-bottom: 5px;height: 150px"
-                            onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                    {% if post.image %}
+                        <script type="text/javascript">console.log("{{post.image}}")</script>
+                        <a href="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
+                           class="fancybox"
+                           data-fancybox-group="gallery"
+                           title="{{ post.title + "&-gohappy-&" + post.id|string }}"><img
+                                src="{{ url_for('static', filename=post.image if post.image else 'media/def_post_image.jpg') }}"
+                                style="padding-bottom: 5px;height: 150px"
+                                onmousedown="isKeyPressed(event,{{ post.id }},{{ user.is_my_profile }})"/></a>
+                    {% endif %}
                 {% endfor %}
 
 
@@ -157,14 +159,14 @@
 
                     <div class="card-content" style="padding: 20px 20px; margin: 15px;">
                         <h5
-                        {% if not post.body %}
-                                style="border-bottom: 0px;"
-                        {% endif %}
+                                {% if not post.body %}
+                                    style="border-bottom: 0px;"
+                                {% endif %}
                         >{{ post.title }}</h5>
                         {% if post.body %}
-                            {% autoescape false %}
-                            <p style="font-size:100%;">{{ post.body[:340] + "..." if post.body|length > 140 else post.body }}</p>
-                            {% endautoescape %}
+                        {% autoescape false %}
+                        <p style="font-size:100%;">{{ post.body[:340] + "..." if post.body|length > 140 else post.body }}</p>
+                        {% endautoescape %}
                         {% endif %}
 
                     </div>
