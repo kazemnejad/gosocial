@@ -89,7 +89,7 @@
                                 <div class="main">
                                     <h3 class="name"><kbd>{{ user.name }}</kbd></h3>
 
-                                    <p class="text-center"><kbd>{{ user.bio }}</kbd></p>
+                                    <p class="text-center"><kbd>{{ user.bio if user.bio else "" }}</kbd></p>
                                 </div>
                             </div>
                         </div> <!-- end front panel -->
