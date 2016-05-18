@@ -13,4 +13,4 @@ import gosocialserver.votingviews
 
 def run():
     global app
-    app.run("0.0.0.0", 80)
+    app.run("0.0.0.0", 8080)
